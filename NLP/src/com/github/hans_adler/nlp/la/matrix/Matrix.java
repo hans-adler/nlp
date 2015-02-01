@@ -1,7 +1,7 @@
-package hans_adler.linear_algebra.matrix;
+package com.github.hans_adler.nlp.la.matrix;
 
-import hans_adler.linear_algebra.vector.Entry;
-import hans_adler.linear_algebra.vector.VectorView;
+import com.github.hans_adler.nlp.la.vector.Entry;
+import com.github.hans_adler.nlp.la.vector.VectorView;
 
 /**
  * <p>Interface for 0-based matrices of doubles.

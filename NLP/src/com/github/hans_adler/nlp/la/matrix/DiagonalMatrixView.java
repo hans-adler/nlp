@@ -1,8 +1,8 @@
-package hans_adler.linear_algebra.matrix;
+package com.github.hans_adler.nlp.la.matrix;
 
-import hans_adler.linear_algebra.vector.OpenVector;
-import hans_adler.linear_algebra.vector.Vector;
-import hans_adler.linear_algebra.vector.VectorView;
+import com.github.hans_adler.nlp.la.vector.OpenVector;
+import com.github.hans_adler.nlp.la.vector.Vector;
+import com.github.hans_adler.nlp.la.vector.VectorView;
 
 /**
  * Wrapper around a read-only vector that presents it as a diagonal matrix.

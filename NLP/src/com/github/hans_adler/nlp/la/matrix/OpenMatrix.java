@@ -1,11 +1,11 @@
-package hans_adler.linear_algebra.matrix;
+package com.github.hans_adler.nlp.la.matrix;
 
-import hans_adler.linear_algebra.vector.Entry;
-import hans_adler.linear_algebra.vector.OpenVector;
-import hans_adler.linear_algebra.vector.Vector;
-import hans_adler.linear_algebra.vector.VectorView;
 import java.util.HashMap;
 import java.util.Map;
+import com.github.hans_adler.nlp.la.vector.Entry;
+import com.github.hans_adler.nlp.la.vector.OpenVector;
+import com.github.hans_adler.nlp.la.vector.Vector;
+import com.github.hans_adler.nlp.la.vector.VectorView;
 
 /**
  * For sparse matrices of variable structure. Even the dimensions are dynamic.

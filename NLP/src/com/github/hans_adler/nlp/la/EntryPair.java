@@ -1,4 +1,4 @@
-package hans_adler.linear_algebra;
+package com.github.hans_adler.nlp.la;
 
 public class EntryPair<E extends AbstractEntry> {
     public int index;

@@ -1,6 +1,6 @@
-package hans_adler.linear_algebra.matrix;
+package com.github.hans_adler.nlp.la.matrix;
 
-import hans_adler.linear_algebra.vector.*;
+import com.github.hans_adler.nlp.la.vector.*;
 
 /**
  * Interface for 0-based read-only matrices of doubles.

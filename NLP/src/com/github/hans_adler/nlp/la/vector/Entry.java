@@ -1,7 +1,7 @@
-package hans_adler.linear_algebra.vector;
+package com.github.hans_adler.nlp.la.vector;
 
-import hans_adler.linear_algebra.AbstractEntry;
 import java.util.Iterator;
+import com.github.hans_adler.nlp.la.AbstractEntry;
 
 public class Entry extends AbstractEntry {
 	

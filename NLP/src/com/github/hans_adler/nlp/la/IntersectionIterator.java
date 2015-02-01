@@ -1,4 +1,4 @@
-package hans_adler.linear_algebra;
+package com.github.hans_adler.nlp.la;
 
 import java.util.Iterator;
 

@@ -1,11 +1,11 @@
-package hans_adler.linear_algebra.vector;
+package com.github.hans_adler.nlp.la.vector;
 
-import static hans_adler.linear_algebra.vector.Entry.DoubleEntryIterator;
-import hans_adler.linear_algebra.EntryPair;
-import hans_adler.linear_algebra.Iterables;
-import hans_adler.linear_algebra.matrix.DiagonalMatrixView;
-import hans_adler.linear_algebra.matrix.MatrixView;
+import static com.github.hans_adler.nlp.la.vector.Entry.DoubleEntryIterator;
 import java.util.Iterator;
+import com.github.hans_adler.nlp.la.EntryPair;
+import com.github.hans_adler.nlp.la.Iterables;
+import com.github.hans_adler.nlp.la.matrix.DiagonalMatrixView;
+import com.github.hans_adler.nlp.la.matrix.MatrixView;
 
 /**
  * Interface for 0-based read-only vectors of doubles.

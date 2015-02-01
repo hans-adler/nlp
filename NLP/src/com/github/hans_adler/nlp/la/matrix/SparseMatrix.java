@@ -1,4 +1,4 @@
-package hans_adler.linear_algebra.matrix;
+package com.github.hans_adler.nlp.la.matrix;
 
 /**
  * Sparse matrix with fixed sparseness structure and fixed dimensions.
