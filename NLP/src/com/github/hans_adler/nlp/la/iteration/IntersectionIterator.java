@@ -1,18 +1,18 @@
-package com.github.hans_adler.nlp.la;
+package com.github.hans_adler.nlp.la.iteration;
 
 import java.util.Iterator;
 
-public class IntersectionIterator<E extends AbstractEntry> implements Iterator<EntryPair<E>> {
+public class IntersectionIterator implements Iterator<EntryPair> {
     
-    Iterator<E> i1;
-    Iterator<E> i2;
-    EntryPair<E> next;
+    Iterator<Entry> i1;
+    Iterator<Entry> i2;
+    EntryPair next;
     boolean nextLoaded = false;
     
-    public IntersectionIterator(Iterator<E> i1, Iterator<E> i2) {
+    public IntersectionIterator(Iterator<Entry> i1, Iterator<Entry> i2) {
         this.i1 = i1;
         this.i2 = i2;
-        next = new EntryPair<>();
+        next = new EntryPair();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class IntersectionIterator<E extends AbstractEntry> implements Iterator<E
     }
 
     @Override
-    public EntryPair<E> next() {
+    public EntryPair next() {
         if (!nextLoaded) hasNext();
         return next;
     }

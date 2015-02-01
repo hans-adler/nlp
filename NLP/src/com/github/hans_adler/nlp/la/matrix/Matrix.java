@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la.matrix;
 
-import com.github.hans_adler.nlp.la.vector.Entry;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.vector.VectorView;
 
 /**

@@ -1,18 +1,18 @@
-package com.github.hans_adler.nlp.la.vector;
+package com.github.hans_adler.nlp.la.iteration;
 
 import java.util.Iterator;
-import com.github.hans_adler.nlp.la.AbstractEntry;
+import com.github.hans_adler.nlp.la.vector.VectorView;
 
-public class Entry extends AbstractEntry {
+public class Entry {
 	
+    public int index;
 	public double value;
 	
 	public Entry() {
-	    super(-1);
-	    this.value = Double.NaN;
+	    this(-1, Double.NaN);
 	}
 	public Entry(int index, double value) {
-		super();
+		this.index = index;
 		this.value = value;
 	}
 	

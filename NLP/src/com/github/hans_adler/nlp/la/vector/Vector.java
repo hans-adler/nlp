@@ -1,5 +1,7 @@
 package com.github.hans_adler.nlp.la.vector;
 
+import com.github.hans_adler.nlp.la.iteration.Entry;
+
 /**
  * Interface for 0-based vectors of doubles.
  * 

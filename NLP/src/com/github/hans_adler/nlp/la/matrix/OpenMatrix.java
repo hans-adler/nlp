@@ -2,7 +2,7 @@ package com.github.hans_adler.nlp.la.matrix;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.github.hans_adler.nlp.la.vector.Entry;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.vector.OpenVector;
 import com.github.hans_adler.nlp.la.vector.Vector;
 import com.github.hans_adler.nlp.la.vector.VectorView;

@@ -1,9 +1,10 @@
 package com.github.hans_adler.nlp.la.vector;
 
-import static com.github.hans_adler.nlp.la.vector.Entry.DoubleEntryIterator;
 import java.util.Iterator;
-import com.github.hans_adler.nlp.la.EntryPair;
-import com.github.hans_adler.nlp.la.Iterables;
+import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.EntryPair;
+import com.github.hans_adler.nlp.la.iteration.Iterables;
+import com.github.hans_adler.nlp.la.iteration.Entry.DoubleEntryIterator;
 import com.github.hans_adler.nlp.la.matrix.DiagonalMatrixView;
 import com.github.hans_adler.nlp.la.matrix.MatrixView;
 
@@ -124,7 +125,7 @@ public interface VectorView  extends Iterable<Entry> {
 	 */
 	public default double scalarProduct(VectorView other) {
 	    double result = 0.0;
-	    for (EntryPair<Entry> pair: Iterables.intersect(this, other)) {
+	    for (EntryPair pair: Iterables.intersect(this, other)) {
 	        result += pair.one().value * pair.two().value;
 	    }
 	    return result;

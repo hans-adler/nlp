@@ -3,6 +3,7 @@ package com.github.hans_adler.nlp.la.vector;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 
 /**
  * Sparse vector implementation that should be particularly efficient for
