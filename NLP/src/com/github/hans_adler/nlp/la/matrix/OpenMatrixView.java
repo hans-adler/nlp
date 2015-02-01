@@ -17,7 +17,7 @@ public class OpenMatrixView implements MatrixView {
     protected int jdim;
     
     public OpenMatrixView() {
-        this(ALL, ALL, 0.0, true, true);
+        this(ALL, ALL, 0.0);
     }
     /**
      * @param idim
@@ -25,16 +25,14 @@ public class OpenMatrixView implements MatrixView {
      * @param defaultValue
      */
     protected OpenMatrixView(int idim, int jdim,
-            double offset,
-            boolean hasRows, boolean hasCols) {
+            double offset) {
         assert idim >= -1 && jdim >= -1;
-        if (!(hasRows || hasCols)) throw new RuntimeException();
         if (offset != 0.0 && !(idim > 0 && jdim > 0)) throw new RuntimeException(); 
         this.idim = idim;
         this.jdim = jdim;
         this.offset = offset;
-        if (hasRows) rows = new HashMap<>();
-        if (hasCols) cols = new HashMap<>();
+        rows = new HashMap<>();
+        cols = new HashMap<>();
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  

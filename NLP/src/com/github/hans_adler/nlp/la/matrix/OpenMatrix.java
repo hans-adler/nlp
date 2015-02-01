@@ -16,10 +16,8 @@ public class OpenMatrix extends OpenMatrixView implements Matrix {
         super();
     }
     
-    protected OpenMatrix(int idim, int jdim,
-            double offset,
-            boolean hasRows, boolean hasCols) {
-        super(idim, jdim, offset, hasRows, hasCols);
+    protected OpenMatrix(int idim, int jdim, double offset) {
+        super(idim, jdim, offset);
     }
 
     
