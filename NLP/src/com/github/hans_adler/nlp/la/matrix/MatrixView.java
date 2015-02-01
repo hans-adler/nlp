@@ -1,6 +1,7 @@
 package com.github.hans_adler.nlp.la.matrix;
 
-import com.github.hans_adler.nlp.la.vector.*;
+import java.util.Map;
+import com.github.hans_adler.nlp.la.vector.VectorView;
 
 /**
  * Interface for 0-based read-only matrices of doubles.
@@ -14,6 +15,18 @@ public interface MatrixView {
      */
     public static int ALL = -1;
 
+    // DIMENSIONS AND DEFAULTS
+    
+    public default int[] getDimensions() {
+        return new int[] { ALL, ALL };
+    }
+    
+    public default double getDefaultValue() {
+        return 0.0;
+    }
+    
+    // GET
+    
     /**
      * <p>Returns A[i,j].</p>
      * 
@@ -97,6 +110,14 @@ public interface MatrixView {
      * @throws RuntimeException if the matrix does not have the required shape.
      */
     public default VectorView copyAsVector() {
+        throw new UnsupportedOperationException();
+    }
+    
+    public default Iterable<Map.Entry<Integer, ? extends VectorView>> getRows() {
+        throw new UnsupportedOperationException();
+    }
+    
+    public default Iterable<Map.Entry<Integer, ? extends VectorView>> getCols() {
         throw new UnsupportedOperationException();
     }
     

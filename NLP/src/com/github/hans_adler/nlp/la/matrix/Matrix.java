@@ -15,6 +15,8 @@ import com.github.hans_adler.nlp.la.vector.VectorView;
  */
 public interface Matrix extends MatrixView {
     
+    // SET
+    
     /**
      * <p>Performs A[i,j] = value. If i == ALL, this is done for all i, and
      * similarly for j == ALL. If i == j == ALL, this amounts to
@@ -37,6 +39,16 @@ public interface Matrix extends MatrixView {
      * @param value
      */
     public abstract Matrix set(int i, int j, double value);
+
+    public default Matrix set(int i, int j, VectorView vector) {
+        throw new UnsupportedOperationException();
+    }
+
+    public default Matrix set(MatrixView other) {
+        throw new UnsupportedOperationException();
+    }
+    
+    // ADD
 
     /**
      * <p>Performs A[i,j] += value. If i == ALL, this is done for all i, and
@@ -61,11 +73,23 @@ public interface Matrix extends MatrixView {
         throw new UnsupportedOperationException();
     }
     
-    public default Matrix add(Matrix other) {
+    public default Matrix add(int i, int j, VectorView vector) {
         throw new UnsupportedOperationException();
     }
 
+    public default Matrix add(MatrixView other) {
+        throw new UnsupportedOperationException();
+    }
+    
+    // MULTIPLY
+
     public abstract Matrix multiply(int i, int j, double value);
+    
+    public abstract Matrix multiply(int i, int j, VectorView vector);
+    
+    public default Matrix multiply(MatrixView other) {
+        throw new UnsupportedOperationException();
+    }
     
     public default Matrix multiplyDiagonal(
             VectorView leftFactor, VectorView rightFactor) {
@@ -82,7 +106,7 @@ public interface Matrix extends MatrixView {
         return this;
     }
     
-    public abstract Matrix multiplySlice(int i, int j, VectorView vector);
+    // MAKE STOCHASTIC
     
     public default Matrix makeRowStochastic() {
         return multiplyDiagonal(getRowSumColVector(1.0, -1.0), null);

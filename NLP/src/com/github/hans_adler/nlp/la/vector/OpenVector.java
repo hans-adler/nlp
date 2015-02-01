@@ -18,35 +18,49 @@ import com.github.hans_adler.nlp.la.iteration.Entry;
  *
  */
 public class OpenVector implements Vector {
+
     //     Implementation notes:
     //     To avoid confusion, internal indices in the arrays storing the actual
     //     information are not referred to as indices but as keys.
     
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * Fields and constructors
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     protected static int[]     INITIAL_INDEX_ARRAY = new int[0]; 
     protected static double[] INITIAL_VALUE_ARRAY = new double[0];
     
+    protected int dimension;
     protected int start;
     protected int ceiling;
-    protected int[]      indexArray;
+    protected int[]    indexArray;
     protected double[] valueArray;
     protected boolean ownsArray;
-    protected int dimension;
 
     public OpenVector() {
+        dimension = ALL;
         start   = 0;
         ceiling = 0;
         indexArray = INITIAL_INDEX_ARRAY;
         valueArray = INITIAL_VALUE_ARRAY;
         ownsArray = true;
-        dimension = ALL;
     }
     public OpenVector(int dimension) {
         this();
         this.dimension = dimension;
+    }
+    public OpenVector(VectorView other) {
+        dimension = other.getDimension();
+        start = 0;
+        ceiling = dimension;
+        indexArray = new int   [dimension];
+        valueArray = new double[dimension];
+        ownsArray = true;
+        int key = start;
+        for (Entry entry: other) {
+            indexArray[key  ] = entry.index;
+            valueArray[key++] = entry.value;
+        }
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  

@@ -3,27 +3,23 @@ package com.github.hans_adler.nlp.la.vector;
 
 public class ConstantVector implements VectorView {
     
-    private final double value;
     private final int    dimension;
+    private final double value;
     
-    public static final ConstantVector ZERO = new ConstantVector(0.0);
-    public static final ConstantVector ONE  = new ConstantVector(1.0);
+    public static final ConstantVector ZERO = new ConstantVector();
+    public static final ConstantVector ONE  = new ConstantVector(ALL, 1.0);
 
-    public ConstantVector(double value, int dimension) {
-        this.value = value;
+    public ConstantVector(int dimension, double value) {
         this.dimension = dimension;
+        this.value = value;
     }
     
-    public ConstantVector(double value) {
-        this(value, ALL);
-    }
-
     public ConstantVector(int dimension) {
-        this(0.0, dimension);
+        this(dimension, 0.0);
     }
 
     public ConstantVector() {
-        this(0.0, ALL);
+        this(ALL, 0.0);
     }
 
     @Override

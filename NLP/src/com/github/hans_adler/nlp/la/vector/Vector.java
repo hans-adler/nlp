@@ -52,7 +52,7 @@ public interface Vector extends VectorView {
      * 
      * @param other
      */
-    public default Vector add(Vector other) {
+    public default Vector add(VectorView other) {
         for (Entry entry: other) {
             add(entry.index, entry.value);
         }

@@ -14,7 +14,7 @@ import com.github.hans_adler.nlp.la.matrix.MatrixView;
  * 
  * @author Hans Adler (johannes.aquila@gmail.com) 2015
  */
-public interface VectorView  extends Iterable<Entry> {
+public interface VectorView extends Iterable<Entry> {
 
     public static int ALL = -1;
 
