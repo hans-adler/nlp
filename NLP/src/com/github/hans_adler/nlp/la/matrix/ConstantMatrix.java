@@ -9,7 +9,9 @@ public class ConstantMatrix extends OpenMatrixView {
     public static final ConstantMatrix ONE  = new ConstantMatrix(ALL, ALL, 1.0);
     
     public ConstantMatrix(int idim, int jdim, double value) {
-        super(idim, jdim, value);
+        super(0, 0, value);
+        this.idim = idim;
+        this.jdim = jdim;
         rows = Collections.emptyMap();
         cols = Collections.emptyMap();
     }

@@ -24,10 +24,9 @@ public class OpenMatrixView implements MatrixView {
      * @param jdim
      * @param defaultValue
      */
-    protected OpenMatrixView(int idim, int jdim,
-            double offset) {
+    protected OpenMatrixView(int idim, int jdim, double offset) {
         assert idim >= -1 && jdim >= -1;
-        if (offset != 0.0 && !(idim > 0 && jdim > 0)) throw new RuntimeException(); 
+        if (offset != 0.0 && !(idim >= 0 && jdim >= 0)) throw new RuntimeException(); 
         this.idim = idim;
         this.jdim = jdim;
         this.offset = offset;

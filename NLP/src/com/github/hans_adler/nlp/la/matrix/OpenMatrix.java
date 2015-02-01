@@ -63,11 +63,11 @@ public class OpenMatrix extends OpenMatrixView implements Matrix {
         idim = other.getDimensions()[0];
         jdim = other.getDimensions()[1];
         rows.clear();
-        for (Map.Entry<Integer, ? extends VectorView> entry: getRows()) {
+        for (Map.Entry<Integer, ? extends VectorView> entry: other.getRows()) {
             rows.put(entry.getKey(), new OpenVector(entry.getValue()));
         }
         cols.clear();
-        for (Map.Entry<Integer, ? extends VectorView> entry: getCols()) {
+        for (Map.Entry<Integer, ? extends VectorView> entry: other.getCols()) {
             cols.put(entry.getKey(), new OpenVector(entry.getValue()));
         }
         return this;
