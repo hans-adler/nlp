@@ -3,6 +3,7 @@ package com.github.hans_adler.nlp.la.vector;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.github.hans_adler.nlp.la.FastMath;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 
 /**
@@ -70,24 +71,16 @@ public class OpenVector implements Vector {
         if (individualExponent == 0.0) {
             assert getDimension() > 0;
             result = (double) getDimension();
-        } else if (individualExponent == 1.0) {
-            result = scalarProduct(ConstantVector.ONE);
-        } else if (individualExponent == 2.0) {
-            result = scalarProduct(this);
         } else {
             for (int index = start; index < ceiling; index++) {
-                result += Math.pow(valueArray[index], individualExponent);
+                result += FastMath.pow(valueArray[index], individualExponent);
             }
             int skipped = getDimension() - (ceiling-start);
-            if (skipped > 0) {
-                result += Math.pow(getDefaultValue(), individualExponent) * skipped;
+            if (skipped > 0 && getDefaultValue() != 0) {
+                result += FastMath.pow(getDefaultValue(), individualExponent) * skipped;
             }
         }
-        if (sumExponent == 1.0) return result;
-        if (sumExponent == -1.0) return 1.0/result;
-        if (sumExponent == -2.0)  return 1.0/(result*result);
-        if (sumExponent == 2.0)  return result*result;
-        return Math.pow(result, sumExponent);
+        return FastMath.pow(result, sumExponent);
     }
     
     @Override

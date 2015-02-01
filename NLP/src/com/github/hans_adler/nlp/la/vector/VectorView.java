@@ -1,6 +1,7 @@
 package com.github.hans_adler.nlp.la.vector;
 
 import java.util.Iterator;
+import com.github.hans_adler.nlp.la.FastMath;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.iteration.EntryIterator;
 import com.github.hans_adler.nlp.la.iteration.EntryPair;
@@ -66,26 +67,18 @@ public interface VectorView  extends Iterable<Entry> {
         if (individualExponent == 0.0) {
             assert getDimension() > 0;
             result = (double) getDimension();
-        } else if (individualExponent == 1.0) {
-            result = scalarProduct(ConstantVector.ONE);
-        } else if (individualExponent == 2.0) {
-            result = scalarProduct(this);
         } else {
             int count = 0;
             for (Entry entry: this) {
-                result += Math.pow(entry.value, individualExponent);
+                result += FastMath.pow(entry.value, individualExponent);
                 count++;
             }
             int skipped = getDimension() - count;
-            if (skipped > 0) {
-                result += Math.pow(getDefaultValue(), individualExponent) * skipped;
+            if (skipped > 0 && getDefaultValue() != 0) {
+                result += FastMath.pow(getDefaultValue(), individualExponent) * skipped;
             }
         }
-        if (sumExponent == 1.0) return result;
-        if (sumExponent == -1.0) return 1.0/result;
-        if (sumExponent == -2.0)  return 1.0/(result*result);
-        if (sumExponent == 2.0)  return result*result;
-        return Math.pow(result, sumExponent);
+        return FastMath.pow(result, sumExponent);
     }
     
     /**
