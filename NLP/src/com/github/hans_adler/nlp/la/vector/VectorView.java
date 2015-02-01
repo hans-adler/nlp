@@ -2,9 +2,9 @@ package com.github.hans_adler.nlp.la.vector;
 
 import java.util.Iterator;
 import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.EntryIterator;
 import com.github.hans_adler.nlp.la.iteration.EntryPair;
 import com.github.hans_adler.nlp.la.iteration.Iterables;
-import com.github.hans_adler.nlp.la.iteration.Entry.EntryIterator;
 import com.github.hans_adler.nlp.la.matrix.DiagonalMatrixView;
 import com.github.hans_adler.nlp.la.matrix.MatrixView;
 
@@ -61,16 +61,30 @@ public interface VectorView  extends Iterable<Entry> {
      * @return Sum of all entries.
      */
     public default double getSum(double individualExponent, double sumExponent) {
+        if (sumExponent == 0) return 1.0;
         double result = 0.0;
-        int count = 0;
-        for (Entry entry: this) {
-            result += Math.pow(entry.value, individualExponent);
-            count++;
+        if (individualExponent == 0.0) {
+            assert getDimension() > 0;
+            result = (double) getDimension();
+        } else if (individualExponent == 1.0) {
+            result = scalarProduct(ConstantVector.ONE);
+        } else if (individualExponent == 2.0) {
+            result = scalarProduct(this);
+        } else {
+            int count = 0;
+            for (Entry entry: this) {
+                result += Math.pow(entry.value, individualExponent);
+                count++;
+            }
+            int skipped = getDimension() - count;
+            if (skipped > 0) {
+                result += Math.pow(getDefaultValue(), individualExponent) * skipped;
+            }
         }
-        int skipped = getDimension() - count;
-        if (skipped > 0) {
-            result += Math.pow(getDefaultValue(), individualExponent) * skipped;
-        }
+        if (sumExponent == 1.0) return result;
+        if (sumExponent == -1.0) return 1.0/result;
+        if (sumExponent == -2.0)  return 1.0/(result*result);
+        if (sumExponent == 2.0)  return result*result;
         return Math.pow(result, sumExponent);
     }
     
@@ -82,6 +96,16 @@ public interface VectorView  extends Iterable<Entry> {
      */
     public default double getDefaultValue() {
         return 0.0;
+    }
+    
+    /**
+     * The dimension of this vector. For unbounded vectors this is the constant
+     * ALL.
+     * 
+     * @return The dimension of this vector.
+     */
+    public default int getDimension() {
+        return ALL;
     }
     
     /**
@@ -104,16 +128,6 @@ public interface VectorView  extends Iterable<Entry> {
         if (index == ALL) return true;
         if (getDimension() == ALL) return true;
         return index < getDimension();
-    }
-    
-    /**
-     * The dimension of this vector. For unbounded vectors this is the constant
-     * ALL.
-     * 
-     * @return The dimension of this vector.
-     */
-    public default int getDimension() {
-        return ALL;
     }
     
     /**

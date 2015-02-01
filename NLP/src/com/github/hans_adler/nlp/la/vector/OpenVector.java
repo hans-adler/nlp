@@ -65,14 +65,29 @@ public class OpenVector implements Vector {
     @Override
     public double getSum(double individualExponent, double sumExponent) {
         // Slightly more efficient than default implementation.
+        if (sumExponent == 0) return 1.0;
         double result = 0.0;
-        int count = 0;
-        for (int index = start; index < ceiling; index++) {
-            result += valueArray[index];
-            count++;
+        if (individualExponent == 0.0) {
+            assert getDimension() > 0;
+            result = (double) getDimension();
+        } else if (individualExponent == 1.0) {
+            result = scalarProduct(ConstantVector.ONE);
+        } else if (individualExponent == 2.0) {
+            result = scalarProduct(this);
+        } else {
+            for (int index = start; index < ceiling; index++) {
+                result += Math.pow(valueArray[index], individualExponent);
+            }
+            int skipped = getDimension() - (ceiling-start);
+            if (skipped > 0) {
+                result += Math.pow(getDefaultValue(), individualExponent) * skipped;
+            }
         }
-        result += getDefaultValue() * (getDimension() - count);
-        return result;
+        if (sumExponent == 1.0) return result;
+        if (sumExponent == -1.0) return 1.0/result;
+        if (sumExponent == -2.0)  return 1.0/(result*result);
+        if (sumExponent == 2.0)  return result*result;
+        return Math.pow(result, sumExponent);
     }
     
     @Override
