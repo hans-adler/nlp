@@ -16,19 +16,19 @@ public class Entry {
 		this.value = value;
 	}
 	
-	public static class DoubleEntryIterator implements Iterator<Entry> {
+	public static class EntryIterator implements Iterator<Entry> {
 
         final int dimension;
 	    final VectorView vector;
 	    final Entry entry;
 	    
-	    public DoubleEntryIterator(VectorView vector, int dimension) {
+	    public EntryIterator(VectorView vector, int dimension) {
 	        assert dimension >= 0;
             this.dimension = dimension;
 	        this.vector = vector;
 	        this.entry = new Entry(-1, Double.NaN);
 	    }
-	    public DoubleEntryIterator(VectorView vector) {
+	    public EntryIterator(VectorView vector) {
 	        this(vector, vector.getDimension());
 	    }
 	    

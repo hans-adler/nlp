@@ -4,7 +4,7 @@ import java.util.Iterator;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.iteration.EntryPair;
 import com.github.hans_adler.nlp.la.iteration.Iterables;
-import com.github.hans_adler.nlp.la.iteration.Entry.DoubleEntryIterator;
+import com.github.hans_adler.nlp.la.iteration.Entry.EntryIterator;
 import com.github.hans_adler.nlp.la.matrix.DiagonalMatrixView;
 import com.github.hans_adler.nlp.la.matrix.MatrixView;
 
@@ -34,7 +34,7 @@ public interface VectorView  extends Iterable<Entry> {
      */
     @Override
     public default Iterator<Entry> iterator() {
-        return new DoubleEntryIterator(this);
+        return new EntryIterator(this);
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
