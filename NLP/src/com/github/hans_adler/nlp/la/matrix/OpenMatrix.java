@@ -14,34 +14,34 @@ import com.github.hans_adler.nlp.la.vector.VectorView;
  *
  */
 public class OpenMatrix implements Matrix {
-	
-	private Map<Integer, OpenVector> rows;
-	private Map<Integer, OpenVector> cols;
-	private double offset;
-	private int idim;
-	private int jdim;
-	
-	public OpenMatrix() {
-		this(ALL, ALL, 0.0, true, true);
-	}
-	/**
-	 * @param idim
-	 * @param jdim
-	 * @param defaultValue
-	 */
-	protected OpenMatrix(int idim, int jdim,
-			double offset,
-			boolean hasRows, boolean hasCols) {
-		assert idim >= -1 && jdim >= -1;
-		if (!(hasRows || hasCols)) throw new RuntimeException();
-		if (offset != 0.0 && !(idim > 0 && jdim > 0)) throw new RuntimeException(); 
-		this.idim = idim;
-		this.jdim = jdim;
-		this.offset = offset;
-		if (hasRows) rows = new HashMap<>();
-		if (hasCols) cols = new HashMap<>();
-	}
-	
+    
+    private Map<Integer, OpenVector> rows;
+    private Map<Integer, OpenVector> cols;
+    private double offset;
+    private int idim;
+    private int jdim;
+    
+    public OpenMatrix() {
+        this(ALL, ALL, 0.0, true, true);
+    }
+    /**
+     * @param idim
+     * @param jdim
+     * @param defaultValue
+     */
+    protected OpenMatrix(int idim, int jdim,
+            double offset,
+            boolean hasRows, boolean hasCols) {
+        assert idim >= -1 && jdim >= -1;
+        if (!(hasRows || hasCols)) throw new RuntimeException();
+        if (offset != 0.0 && !(idim > 0 && jdim > 0)) throw new RuntimeException(); 
+        this.idim = idim;
+        this.jdim = jdim;
+        this.offset = offset;
+        if (hasRows) rows = new HashMap<>();
+        if (hasCols) cols = new HashMap<>();
+    }
+    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * MatrixView implementation
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -104,66 +104,66 @@ public class OpenMatrix implements Matrix {
     * Matrix implementation
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	@Override
-	public OpenMatrix set(int i, int j, double newValue) {
-//	    System.err.printf("set(%d, %d, %f)\n", i, j, value);
-		assert i >= -1 && j >= -1;
-		assert idim < 0 || i < idim;
-		assert jdim < 0 || j < jdim;
-		if (i < 0 && j < 0) {
-			if (idim < 0 || jdim < 0) throw new RuntimeException();
-			rows.clear();
-			cols.clear();
-			offset = newValue;
-			return this;
-		}
-		if (i >= 0) {
-			obtainRowVector(i).set(j, newValue);
-		} else {
-			if (idim < 0) throw new RuntimeException();
-			for (int ii = 0; ii < idim; ii++) {
-				obtainRowVector(ii).set(j, newValue);
-			}
-		}
-		if (j >= 0) {
-			obtainColVector(j).set(i, newValue);
-		} else {
-			if (jdim < 0) throw new RuntimeException();
-			for (int jj = 0; jj < jdim; jj++) {
-				obtainColVector(jj).set(i, newValue);
-			}
-		}
-		return this;
-	}
+    @Override
+    public OpenMatrix set(int i, int j, double newValue) {
+//        System.err.printf("set(%d, %d, %f)\n", i, j, value);
+        assert i >= -1 && j >= -1;
+        assert idim < 0 || i < idim;
+        assert jdim < 0 || j < jdim;
+        if (i < 0 && j < 0) {
+            if (idim < 0 || jdim < 0) throw new RuntimeException();
+            rows.clear();
+            cols.clear();
+            offset = newValue;
+            return this;
+        }
+        if (i >= 0) {
+            obtainRowVector(i).set(j, newValue);
+        } else {
+            if (idim < 0) throw new RuntimeException();
+            for (int ii = 0; ii < idim; ii++) {
+                obtainRowVector(ii).set(j, newValue);
+            }
+        }
+        if (j >= 0) {
+            obtainColVector(j).set(i, newValue);
+        } else {
+            if (jdim < 0) throw new RuntimeException();
+            for (int jj = 0; jj < jdim; jj++) {
+                obtainColVector(jj).set(i, newValue);
+            }
+        }
+        return this;
+    }
 
-	@Override
-	public OpenMatrix add(int i, int j, double summand) {
-		assert i >= -1 && j >= -1;
-		assert idim < 0 || i < idim;
-		assert jdim < 0 || j < jdim;
-		if (i < 0 && j < 0) {
-			if (idim < 0 || jdim < 0) throw new RuntimeException();
-			offset += summand;
-			return this;
-		}
-		if (i >= 0) {
-			obtainRowVector(i).add(j, summand);
-		} else {
-			if (idim < 0) throw new RuntimeException();
-			for (int ii = 0; ii < idim; ii++) {
-				obtainRowVector(ii).add(j, summand);
-			}
-		}
-		if (j >= 0) {
-			obtainColVector(j).add(i, summand);
-		} else {
-			if (jdim < 0) throw new RuntimeException();
-			for (int jj = 0; jj < jdim; jj++) {
-				obtainColVector(jj).add(i, summand);
-			}
-		}
-		return this;
-	}
+    @Override
+    public OpenMatrix add(int i, int j, double summand) {
+        assert i >= -1 && j >= -1;
+        assert idim < 0 || i < idim;
+        assert jdim < 0 || j < jdim;
+        if (i < 0 && j < 0) {
+            if (idim < 0 || jdim < 0) throw new RuntimeException();
+            offset += summand;
+            return this;
+        }
+        if (i >= 0) {
+            obtainRowVector(i).add(j, summand);
+        } else {
+            if (idim < 0) throw new RuntimeException();
+            for (int ii = 0; ii < idim; ii++) {
+                obtainRowVector(ii).add(j, summand);
+            }
+        }
+        if (j >= 0) {
+            obtainColVector(j).add(i, summand);
+        } else {
+            if (jdim < 0) throw new RuntimeException();
+            for (int jj = 0; jj < jdim; jj++) {
+                obtainColVector(jj).add(i, summand);
+            }
+        }
+        return this;
+    }
 
     @Override
     public OpenMatrix multiply(int i, int j, double factor) {
@@ -211,41 +211,41 @@ public class OpenMatrix implements Matrix {
     * Private methods
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
-	 * Returns the i-th row vector, creating it if necessary.
-	 * 
-	 * @param i
-	 * @return
-	 */
-	private OpenVector obtainRowVector(int i) {
-		OpenVector result = rows.get(i);
-		if (result == null) {
-			result = new OpenVector(jdim);
-			rows.put(i, result);
-		}
-		return result;
-	}
-	
-	/**
-	 * Returns the j-th column vector, creating it if necessary.
-	 * 
-	 * @param j
-	 * @return
-	 */
-	private OpenVector obtainColVector(int j) {
-		OpenVector result = cols.get(j);
-		if (result == null) {
-			result = new OpenVector(idim);
-			cols.put(j, result);
-		}
-		return result;
-	}
-	
-	private void synchronizeForNewRow(int i) {
-	    for(Entry entry: obtainRowVector(i)) {
-	        obtainColVector(entry.index).set(i, entry.value);
-	    }
-	}
+    /**
+     * Returns the i-th row vector, creating it if necessary.
+     * 
+     * @param i
+     * @return
+     */
+    private OpenVector obtainRowVector(int i) {
+        OpenVector result = rows.get(i);
+        if (result == null) {
+            result = new OpenVector(jdim);
+            rows.put(i, result);
+        }
+        return result;
+    }
+    
+    /**
+     * Returns the j-th column vector, creating it if necessary.
+     * 
+     * @param j
+     * @return
+     */
+    private OpenVector obtainColVector(int j) {
+        OpenVector result = cols.get(j);
+        if (result == null) {
+            result = new OpenVector(idim);
+            cols.put(j, result);
+        }
+        return result;
+    }
+    
+    private void synchronizeForNewRow(int i) {
+        for(Entry entry: obtainRowVector(i)) {
+            obtainColVector(entry.index).set(i, entry.value);
+        }
+    }
     
     private void synchronizeForNewCol(int j) {
         for(Entry entry: obtainColVector(j)) {

@@ -22,7 +22,7 @@ public interface Vector extends VectorView {
      * @param index
      * @param newValue
      */
-	public abstract Vector set(int index, double newValue);
+    public abstract Vector set(int index, double newValue);
 
     /**
      * <p>Adds to value at position index. For sparse vectors, if index did not
@@ -35,11 +35,11 @@ public interface Vector extends VectorView {
      * @param index
      * @param summand
      */
-	public default Vector add(int index, double summand) {
-	    assert index >= 0;
-	    set(index, get(index)+summand);
-	    return this;
-	}
+    public default Vector add(int index, double summand) {
+        assert index >= 0;
+        set(index, get(index)+summand);
+        return this;
+    }
 
     /**
      * <p>In-place addition of another vector.</p>
@@ -52,13 +52,13 @@ public interface Vector extends VectorView {
      * 
      * @param other
      */
-	public default Vector add(Vector other) {
+    public default Vector add(Vector other) {
         for (Entry entry: other) {
             add(entry.index, entry.value);
         }
         return this;
-	}
-	
+    }
+    
     /**
      * <p>Multiplies value at position index with value.
      * For sparse vectors, if index did not
