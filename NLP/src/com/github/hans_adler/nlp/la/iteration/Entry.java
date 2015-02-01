@@ -9,7 +9,8 @@ public class Entry {
 	public double value;
 	
 	public Entry() {
-	    this(-1, Double.NaN);
+        this.index = -1;
+        this.value = Double.NaN;
 	}
 	public Entry(int index, double value) {
 		this.index = index;
