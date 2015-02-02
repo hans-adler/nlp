@@ -23,7 +23,7 @@ public class OpenVector implements Vector {
     //     To avoid confusion, internal indices in the arrays storing the actual
     //     information are not referred to as indices but as keys.
     
-     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * Fields and constructors
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     

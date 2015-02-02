@@ -1,8 +1,9 @@
 package com.github.hans_adler.nlp.la2;
 
 import java.util.Iterator;
+import com.github.hans_adler.nlp.la2.core.Vector;
 
-public class ArrayIterator<T extends Vector> extends Entry<T>
+public class ArrayIterator<T extends Vector<?>> extends Entry<T>
                                                 implements Iterator<Entry<T>> {
     
     private T[] contentArray;
