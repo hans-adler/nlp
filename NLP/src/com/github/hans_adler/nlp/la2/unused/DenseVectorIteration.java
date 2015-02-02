@@ -1,8 +1,10 @@
-package com.github.hans_adler.nlp.la2;
+package com.github.hans_adler.nlp.la2.unused;
 
 import com.github.hans_adler.nlp.la2.core.Axis;
 import com.github.hans_adler.nlp.la2.core.Matrix;
 import com.github.hans_adler.nlp.la2.core.Vector;
+import com.github.hans_adler.nlp.la2.implementation.Entry;
+import com.github.hans_adler.nlp.la2.implementation.Iteration;
 
 
 public class DenseVectorIteration<A1 extends Axis, A2 extends Axis>

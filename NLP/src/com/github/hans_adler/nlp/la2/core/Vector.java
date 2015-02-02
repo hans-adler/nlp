@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la2.core;
 
-import com.github.hans_adler.nlp.la2.Entry;
+import com.github.hans_adler.nlp.la2.implementation.Entry;
 import com.github.hans_adler.nlp.la2.internal.MoV;
 import com.github.hans_adler.nlp.la2.internal.VoS;
 

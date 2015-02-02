@@ -1,7 +1,7 @@
 package com.github.hans_adler.nlp.la2.core;
 
-import com.github.hans_adler.nlp.la2.DenseVectorIteration;
 import com.github.hans_adler.nlp.la2.internal.MoV;
+import com.github.hans_adler.nlp.la2.unused.DenseVectorIteration;
 
 public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
 

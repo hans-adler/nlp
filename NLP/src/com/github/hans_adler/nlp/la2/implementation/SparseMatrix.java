@@ -1,4 +1,4 @@
-package com.github.hans_adler.nlp.la2;
+package com.github.hans_adler.nlp.la2.implementation;
 
 import com.github.hans_adler.nlp.la2.core.Axis;
 import com.github.hans_adler.nlp.la2.core.Matrix;
