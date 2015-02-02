@@ -1,4 +1,4 @@
-package com.github.hans_adler.nlp.la2.core;
+package com.github.hans_adler.nlp.la2;
 
 public class Axis {
     

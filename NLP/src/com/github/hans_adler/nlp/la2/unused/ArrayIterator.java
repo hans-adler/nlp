@@ -1,7 +1,7 @@
 package com.github.hans_adler.nlp.la2.unused;
 
 import java.util.Iterator;
-import com.github.hans_adler.nlp.la2.core.Vector;
+import com.github.hans_adler.nlp.la2.Vector;
 import com.github.hans_adler.nlp.la2.implementation.Entry;
 
 public class ArrayIterator<T extends Vector<?>> extends Entry<T>

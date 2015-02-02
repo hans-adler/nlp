@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la2.internal;
 
-import com.github.hans_adler.nlp.la2.core.Axis;
+import com.github.hans_adler.nlp.la2.Axis;
 
 public interface MoV<A1 extends Axis> extends MoVoS {
 

@@ -1,8 +1,8 @@
 package com.github.hans_adler.nlp.la2.implementation;
 
-import com.github.hans_adler.nlp.la2.core.Axis;
-import com.github.hans_adler.nlp.la2.core.Scalar;
-import com.github.hans_adler.nlp.la2.core.Vector;
+import com.github.hans_adler.nlp.la2.Axis;
+import com.github.hans_adler.nlp.la2.Scalar;
+import com.github.hans_adler.nlp.la2.Vector;
 
 public class SparseVector<A1 extends Axis> implements Vector<A1> {
     //     Implementation notes:

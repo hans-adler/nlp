@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la2.implementation;
 
-import com.github.hans_adler.nlp.la2.core.Scalar;
+import com.github.hans_adler.nlp.la2.Scalar;
 
 
 public class ConcreteScalar implements Scalar {

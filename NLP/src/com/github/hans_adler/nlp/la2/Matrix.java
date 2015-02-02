@@ -1,4 +1,4 @@
-package com.github.hans_adler.nlp.la2.core;
+package com.github.hans_adler.nlp.la2;
 
 import com.github.hans_adler.nlp.la2.internal.MoV;
 import com.github.hans_adler.nlp.la2.unused.DenseVectorIteration;
