@@ -23,7 +23,7 @@ public class Axis {
      * @param index
      */
     public final void checkIndex(int index) {
-        assert 0 < index && index < bound;;
+        assert 0 <= index && index < bound;;
     }
 
 }

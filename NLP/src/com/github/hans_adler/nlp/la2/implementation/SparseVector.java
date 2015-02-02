@@ -67,7 +67,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     @Override
     public MutableVector<A1> setValue(int j, double value) {
         checkIndex(j);
-        int key = createKey(j); // createKey() can change valueArray!!!
+        int key = createKey(j); // createKey() can change arrays!!!
         valueArray[key] = value;
         return this;
     }
@@ -119,8 +119,9 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
             assert start == 0;
             indexArray = new int[20];
             valueArray = new double[20];
-            indexArray[0] = 0;
+            indexArray[0] = j;
             valueArray[0] = 0.0;
+            ceiling = 1;
             return 0;
         }
         
@@ -128,15 +129,14 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         int key = start + j;
         if (key >= ceiling) key = ceiling-1;
         int jj = indexArray[key];
-        while (jj > j) {
+        while (jj > j && key > start) {
             key--;
             jj = indexArray[key];
         }
         if (jj == j) return key;
         
         // Key not found.
-        assert jj < j;
-        key++;
+        if (jj < j) key++;
         assert start == 0;
         if (ceiling == indexArray.length) {
             int newCapacity = indexArray.length+32;
@@ -147,6 +147,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         System.arraycopy(valueArray, key, valueArray, key+1, ceiling-key);
         indexArray[key] = j;
         valueArray[key] = 0.0;
+        ceiling++;
         return key;
     }
 
