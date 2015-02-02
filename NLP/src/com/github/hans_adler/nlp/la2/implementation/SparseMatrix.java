@@ -82,8 +82,11 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
 
     @Override
     public MutableMatrix<A1, A2> setValue(int i, int j, double value) {
+        // Do it here
         checkIndex(i, j);
         createRowVector(i).setValue(j, value);
+        // Do it over there
+        transposed.createRowVector(j).setValue(i, value);
         return this;
     }
     
@@ -92,15 +95,15 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
-    * Private methods
+    * Protected methods
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
-    private SparseVector<A2> rowVector(int i) {
+    protected SparseVector<A2> rowVector(int i) {
         if (start+i >= ceiling) return null;
         return contentArray[start + i];
     }
     
-    private SparseVector<A2> createRowVector(int i) {
+    protected SparseVector<A2> createRowVector(int i) {
         checkIndex(i);
         // First grow list if necessary
         if (start+i >= ceiling) {

@@ -9,11 +9,6 @@ public interface Scalar extends VoS {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    @Override
-    public default Scalar seeTransposed() {
-        return this;
-    }
-
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

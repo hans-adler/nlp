@@ -8,10 +8,6 @@ public interface MoV<A1 extends Axis> extends MoVoS {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public abstract MoV seeTransposed();
-    
     public abstract VoS see(int i);
     
     @SuppressWarnings("rawtypes")

@@ -10,7 +10,6 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    @Override
     public abstract Matrix<A2, A1> seeTransposed();
     
     @Override

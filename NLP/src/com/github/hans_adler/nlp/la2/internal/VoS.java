@@ -7,9 +7,6 @@ public interface VoS extends MoVoS {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    @Override
-    public abstract VoS seeTransposed();
-    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2,9 +2,9 @@ package com.github.hans_adler.nlp.la2.implementation;
 
 import java.util.Arrays;
 import com.github.hans_adler.nlp.la2.Axis;
+import com.github.hans_adler.nlp.la2.MutableScalar;
 import com.github.hans_adler.nlp.la2.MutableVector;
 import com.github.hans_adler.nlp.la2.Scalar;
-import com.github.hans_adler.nlp.la2.Vector;
 
 public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     //     Implementation notes:
@@ -20,8 +20,6 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     
     protected final A1 axis1;
     
-    protected SparseVector<A1> transposed;
-    
     protected int[]    indexArray;
     protected double[] valueArray;
     protected int start;
@@ -36,25 +34,12 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public Vector<A1> seeTransposed() {
-        if (transposed == null) {
-            transposed = new SparseVector<>(axis1   );
-            transposed.transposed = this;
-            transposed.indexArray = this.indexArray;
-            transposed.valueArray = this.valueArray;
-            transposed.start      = this.start;
-            transposed.ceiling    = this.ceiling;
-        }
-        return transposed;
-    }
-
-    @Override
     public Iterable<Entry<Scalar>> seeAll(boolean sparse) {
         return new MyIteration(sparse);
     }
 
     @Override
-    public Scalar see(int j) {
+    public MutableScalar see(int j) {
         return new ConcreteScalar(getValue(j));
     }
 

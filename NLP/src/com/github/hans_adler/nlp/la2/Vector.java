@@ -12,9 +12,6 @@ public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public abstract Vector<A1> seeTransposed();
-
-    @Override
     public abstract Scalar see(int i);
     
     @Override

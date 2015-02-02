@@ -22,8 +22,6 @@ public interface MoVoS {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    public abstract MoVoS seeTransposed();
-    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
