@@ -20,7 +20,7 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
     int ceiling;
     
     @SuppressWarnings("unchecked")
-    public SparseMatrix(A1 axis1, A2 axis2) {
+    public SparseMatrix(A1 axis1, A2 axis2, boolean buildTransposed) {
         this.axis1 = axis1;
         this.axis2 = axis2;
         if (axis1.bounded) {
@@ -28,6 +28,13 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
         } else {
             contentArray = INITIAL_VALUE_ARRAY;
         }
+        if (!buildTransposed) return;
+        assert transposed == null;
+        transposed = new SparseMatrix<A2, A1>(axis2, axis1, false);
+        transposed.transposed = this;
+    }
+    public SparseMatrix(A1 axis1, A2 axis2) {
+        this(axis1, axis2, true);
     }
     
     @Override
@@ -37,8 +44,7 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
     }
     @Override
     public Matrix<A2, A1> seeTransposed() {
-        // TODO Auto-generated method stub
-        return null;
+        return transposed;
     }
     
     @Override
