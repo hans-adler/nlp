@@ -1,11 +1,13 @@
 package com.github.hans_adler.nlp.la2.implementation;
 
+import java.util.Arrays;
 import com.github.hans_adler.nlp.la2.Axis;
 import com.github.hans_adler.nlp.la2.Matrix;
+import com.github.hans_adler.nlp.la2.MutableMatrix;
 import com.github.hans_adler.nlp.la2.Vector;
 
 public class SparseMatrix<A1 extends Axis, A2 extends Axis>
-                                         implements Matrix<A1, A2> {
+                                         implements MutableMatrix<A1, A2> {
 
     @SuppressWarnings("rawtypes")
     protected static final SparseVector[] INITIAL_VALUE_ARRAY = new SparseVector[0];
@@ -58,9 +60,8 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
 
     @Override
     public double getValue(int i, int j) {
-        checkIndex(i);
-        SparseVector<A2> row = null;
-        if (start+i < ceiling) row = contentArray[start + i];
+        checkIndex(i, j);
+        SparseVector<A2> row = rowVector(i);
         if (row == null) return getDefaultValue();
         return row.getValue(j);
     }
@@ -75,6 +76,43 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
         return axis2;
     }
     
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * SETTERS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    @Override
+    public MutableMatrix<A1, A2> setValue(int i, int j, double value) {
+        checkIndex(i, j);
+        createRowVector(i).setValue(j, value);
+        return this;
+    }
+    
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * ACTIONS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * Private methods
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    
+    private SparseVector<A2> rowVector(int i) {
+        if (start+i >= ceiling) return null;
+        return contentArray[start + i];
+    }
+    
+    private SparseVector<A2> createRowVector(int i) {
+        checkIndex(i);
+        // First grow list if necessary
+        if (start+i >= ceiling) {
+            int newCapacity = start+i+32;
+            contentArray = Arrays.copyOf(contentArray, newCapacity);
+            ceiling = start + newCapacity;
+        } else if (contentArray[start+i] != null) {
+            return contentArray[start+i];
+        }
+        return contentArray[start+i] = new SparseVector<A2>(axis2);
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * INNER CLASSES
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

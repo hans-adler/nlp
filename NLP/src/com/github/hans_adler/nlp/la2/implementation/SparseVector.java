@@ -1,10 +1,12 @@
 package com.github.hans_adler.nlp.la2.implementation;
 
+import java.util.Arrays;
 import com.github.hans_adler.nlp.la2.Axis;
+import com.github.hans_adler.nlp.la2.MutableVector;
 import com.github.hans_adler.nlp.la2.Scalar;
 import com.github.hans_adler.nlp.la2.Vector;
 
-public class SparseVector<A1 extends Axis> implements Vector<A1> {
+public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     //     Implementation notes:
     //     To avoid confusion, internal indices in the arrays storing the actual
     //     information are not referred to as indices but as keys.
@@ -74,6 +76,22 @@ public class SparseVector<A1 extends Axis> implements Vector<A1> {
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * SETTERS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    @Override
+    public MutableVector<A1> setValue(int j, double value) {
+        checkIndex(j);
+        int key = createKey(j); // createKey() can change valueArray!!!
+        valueArray[key] = value;
+        return this;
+    }
+    
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * ACTIONS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * Private methods
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
@@ -93,6 +111,57 @@ public class SparseVector<A1 extends Axis> implements Vector<A1> {
             jj = indexArray[key];
         }
         if (jj < j) return -1;
+        return key;
+    }
+
+    /**
+     * <p>Returns the key corresponding to the index. Creates it first if it
+     * does not exist yet.</p>
+     * 
+     * <p><em>Note:</em> Since this method sometimes changes indexArray and
+     * valueArray (because they have to grow), it is unsafe to call
+     * indexArray[obtainKey[index]] or valueArray[obtainKey[index]].
+     * Instead, store the key in a variable and <em>then</em> index the array
+     * with that variable.</p> 
+     * 
+     * @param j
+     * @return
+     */
+    private int createKey(int j) {
+        checkIndex(j);
+        // Handling the special case when array not yet allocated.
+        if (ceiling == start) {
+            assert start == 0;
+            indexArray = new int[20];
+            valueArray = new double[20];
+            indexArray[0] = 0;
+            valueArray[0] = 0.0;
+            return 0;
+        }
+        
+        // Looking for the key and returning it if successful.
+        int key = start + j;
+        if (key >= ceiling) key = ceiling-1;
+        int jj = indexArray[key];
+        while (jj > j) {
+            key--;
+            jj = indexArray[key];
+        }
+        if (jj == j) return key;
+        
+        // Key not found.
+        assert jj < j;
+        key++;
+        assert start == 0;
+        if (ceiling == indexArray.length) {
+            int newCapacity = indexArray.length+32;
+            indexArray = Arrays.copyOf(indexArray, newCapacity);
+            valueArray = Arrays.copyOf(valueArray, newCapacity);
+        }
+        System.arraycopy(indexArray, key, indexArray, key+1, ceiling-key);
+        System.arraycopy(valueArray, key, valueArray, key+1, ceiling-key);
+        indexArray[key] = j;
+        valueArray[key] = 0.0;
         return key;
     }
 

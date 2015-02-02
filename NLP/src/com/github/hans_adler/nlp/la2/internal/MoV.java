@@ -32,7 +32,7 @@ public interface MoV<A1 extends Axis> extends MoVoS {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     public default void checkIndex(int i) {
-        assert 0 <= i && i < getAxis1().bound;
+        getAxis1().checkIndex(i);
     }
     
 }
