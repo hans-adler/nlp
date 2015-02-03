@@ -4,35 +4,51 @@ import com.github.hans_adler.nlp.la.implementation.SparseMatrix;
 import com.github.hans_adler.nlp.la.internal.MoV;
 import com.github.hans_adler.nlp.la.unused.DenseVectorIteration;
 
-/**
- * General method naming scheme
- * 
- * Properties:
- * 
- * Get/set as usual. Unusually, most setters return a reference to the object
- * itself to permit chaining.
- * 
- * Peek/poke are internal variants of get/set that do not check their arguments
- * and will not change any (substantial) object state if they can't find
- * something, returning invalid values (index -1, value NaN) instead.
- * 
- * Aspects (such as rows of a matrix, or a transposed matrix):
- * 
- * view - read-only (in general not enforced); state undefined from the next
- *        write operation to the owning object or any of its views.
- *        Maximally efficient aspect.
- * take - mutable; state undefined from the next write operation to the
- *        owning object or any of its aspects.
- * keep - mutable, keeping a long-term connection to the owning object.
- * copy - mutable copy of the current state of the object; changes won't be
- *        written back.
- *        
- * Some special cases: viewAll, takeAll, keepAll, copyAll are iterables for
- * the object's constituents as returned by view(i), take(i), keep(i), copy(i).
- * 
- * view(), take(), keep() without arguments make no sense, hence don't exist.
- * But copy() makes sense and returns a deep copy of the object.
- * 
+/*
+  General method naming scheme
+  
+  
+  Properties:
+  
+  Get/set as usual, but mostly restricted to primitives. Unusually, most
+  setters return a reference to the object itself to permit chaining.
+  
+  Peek/poke are internal variants of get/set that do not check their arguments
+  and will not change any (substantial) object state if they can't find
+  something, returning invalid values (index -1, value NaN) instead.
+  
+  
+  * Aspects (such as rows of a matrix, or a transposed matrix):
+  
+  view - read-only (in general not enforced); state undefined from the next
+         write operation to the owning object or any of its views.
+         Maximally efficient aspect.
+  take - mutable; state undefined from the next write operation to the
+         owning object or any of its aspects.
+  keep - mutable, keeping a long-term connection to the owning object.
+  copy - mutable copy of the current state of the object; changes won't be
+         written back.
+          
+  pull - guarantees to return the internal representation. Useful in connection
+         with push: put a wrapper around the pulled vector and push it back.
+  push - actually replaces the current internal representation by the new
+         one provided. Useful e.g. in unit testing or to synchronise several
+         aspects with each other. Or to make a single row in an otherwise
+         sparse matrix dense. (Feasibility?)
+         Pull and push should be useful for unit tests.
+         
+  Some special cases: viewAll, takeAll, keepAll, copyAll, pullAll are iterables
+  for the object's constituents as returned by view(i), take(i), keep(i),
+  copy(i). Not sure if pushAll makes sense. (Though it could be used to
+  turn another matrix into a shallow copy. This could result in two matrices
+  that only differ on the default values.)
+  
+  view(), take(), keep() without arguments make no sense, hence don't exist.
+  But copy() makes sense and returns a deep copy of the object.
+  
+*/  
+  
+/**  
  * @author Hans Adler (johannes.aquila@gmail.com)
  *
  * @param <A1>
