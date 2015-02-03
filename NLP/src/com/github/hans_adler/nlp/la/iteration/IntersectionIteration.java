@@ -1,18 +1,20 @@
 package com.github.hans_adler.nlp.la.iteration;
 
 import java.util.Iterator;
+import com.github.hans_adler.nlp.la.internal.VoS;
 
-public class IntersectionIterator implements Iterator<EntryPair> {
+public class IntersectionIteration<T1 extends VoS, T2 extends VoS>
+                            implements Iteration<EntryPair<T1, T2>> {
     
-    Iterator<Entry> i1;
-    Iterator<Entry> i2;
-    EntryPair next;
+    Iterator<Entry<T1>> i1;
+    Iterator<Entry<T2>> i2;
+    EntryPair<T1, T2> next;
     boolean nextLoaded = false;
     
-    public IntersectionIterator(Iterator<Entry> i1, Iterator<Entry> i2) {
+    public IntersectionIteration(Iterator<Entry<T1>> i1, Iterator<Entry<T2>> i2) {
         this.i1 = i1;
         this.i2 = i2;
-        next = new EntryPair();
+        next = new EntryPair<T1, T2>();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class IntersectionIterator implements Iterator<EntryPair> {
     }
 
     @Override
-    public EntryPair next() {
+    public EntryPair<T1, T2> next() {
         if (!nextLoaded) hasNext();
         return next;
     }
