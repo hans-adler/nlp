@@ -4,6 +4,20 @@ import java.util.Iterator;
 import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.internal.VoS;
 
+/**
+ * Turns two Entry Iterator objects into a single EntryPair Iteration that
+ * produces the following sequence (by increasing index):
+ * 
+ * For each index that appears in both iterations, there is an EntryPair
+ * combining them. For each index that appears only in one iteration,
+ * there is an EntryPair having the corresponding Entry and null as its
+ * partner.
+ * 
+ * @author Hans Adler (johannes.aquila@gmail.com)
+ *
+ * @param <T1>
+ * @param <T2>
+ */
 public class UnionIteration<T1 extends VoS, T2 extends VoS>
                             implements Iteration<EntryPair<T1, T2>> {
     
