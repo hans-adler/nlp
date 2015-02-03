@@ -5,6 +5,8 @@ import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.MutableScalar;
 import com.github.hans_adler.nlp.la.MutableVector;
 import com.github.hans_adler.nlp.la.Scalar;
+import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.Iteration;
 
 /**
  * TODO: Refactor so that at the core there is an ArrayList variant whose

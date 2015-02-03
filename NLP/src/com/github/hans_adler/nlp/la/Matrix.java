@@ -28,6 +28,7 @@ import com.github.hans_adler.nlp.la.unused.DenseVectorIteration;
   keep - mutable, keeping a long-term connection to the owning object.
   copy - mutable copy of the current state of the object; changes won't be
          written back.
+  paste - writes contents of the provided object.
           
   pull - guarantees to return the internal representation. Useful in connection
          with push: put a wrapper around the pulled vector and push it back.
@@ -36,6 +37,8 @@ import com.github.hans_adler.nlp.la.unused.DenseVectorIteration;
          aspects with each other. Or to make a single row in an otherwise
          sparse matrix dense. (Feasibility?)
          Pull and push should be useful for unit tests.
+  
+  Pushers and pasters return the object itself to permit chaining.
          
   Some special cases: viewAll, takeAll, keepAll, copyAll, pullAll are iterables
   for the object's constituents as returned by view(i), take(i), keep(i),
@@ -72,6 +75,7 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
         return new DenseVectorIteration<A1, A2>(this);
     }
     
+    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -88,6 +92,7 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
     
     public abstract A2 getAxis2();
 
+    
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * NON-CHAINING ACTIONS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -96,6 +101,7 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
         getAxis1().checkIndex(i);
         getAxis2().checkIndex(j);
     }
+    
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * FACTORY

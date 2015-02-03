@@ -1,7 +1,7 @@
 package com.github.hans_adler.nlp.la.unused;
 
-import com.github.hans_adler.nlp.la.implementation.Entry;
-import com.github.hans_adler.nlp.la.implementation.EntryPair;
+import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.EntryPair;
 
 
 public final class Iterables {

@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la;
 
-import com.github.hans_adler.nlp.la.implementation.Entry;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 
 public interface MutableScalar extends Scalar {
 

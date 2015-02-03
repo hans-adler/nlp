@@ -1,9 +1,9 @@
 package com.github.hans_adler.nlp.la.unused;
 
 import java.util.Iterator;
-import com.github.hans_adler.nlp.la.implementation.Entry;
-import com.github.hans_adler.nlp.la.implementation.EntryPair;
-import com.github.hans_adler.nlp.la.implementation.IntersectionIterator;
+import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.EntryPair;
+import com.github.hans_adler.nlp.la.iteration.IntersectionIterator;
 
 public class IntersectionIterable implements Iterable<EntryPair> {
 

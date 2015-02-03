@@ -3,8 +3,8 @@ package com.github.hans_adler.nlp.la.unused;
 import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.Matrix;
 import com.github.hans_adler.nlp.la.Vector;
-import com.github.hans_adler.nlp.la.implementation.Entry;
-import com.github.hans_adler.nlp.la.implementation.Iteration;
+import com.github.hans_adler.nlp.la.iteration.Entry;
+import com.github.hans_adler.nlp.la.iteration.Iteration;
 
 
 public class DenseVectorIteration<A1 extends Axis, A2 extends Axis>

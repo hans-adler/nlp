@@ -1,9 +1,9 @@
 package com.github.hans_adler.nlp.la;
 
-import com.github.hans_adler.nlp.la.implementation.Entry;
 import com.github.hans_adler.nlp.la.implementation.SparseVector;
 import com.github.hans_adler.nlp.la.internal.MoV;
 import com.github.hans_adler.nlp.la.internal.VoS;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 
 public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     

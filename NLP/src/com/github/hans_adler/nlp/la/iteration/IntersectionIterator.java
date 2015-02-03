@@ -1,4 +1,4 @@
-package com.github.hans_adler.nlp.la.implementation;
+package com.github.hans_adler.nlp.la.iteration;
 
 import java.util.Iterator;
 

@@ -2,6 +2,7 @@ package com.github.hans_adler.nlp.la.implementation;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.test.XAxis;
 import com.github.hans_adler.nlp.la.test.YAxis;
 
