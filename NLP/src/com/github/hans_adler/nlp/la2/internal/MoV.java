@@ -8,10 +8,10 @@ public interface MoV<A1 extends Axis> extends MoVoS {
     * ASPECTS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    public abstract VoS see(int i);
+    public abstract VoS view(int i);
     
     @SuppressWarnings("rawtypes")
-    public abstract Iterable seeAll(boolean sparse);
+    public abstract Iterable viewAll(boolean sparse);
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS

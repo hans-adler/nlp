@@ -40,17 +40,17 @@ public class SparseMatrix<A1 extends Axis, A2 extends Axis>
     }
     
     @Override
-    public Vector<A2> see(int i) {
+    public Vector<A2> view(int i) {
         checkIndex(i);
         return contentArray[start + i];
     }
     @Override
-    public Matrix<A2, A1> seeTransposed() {
+    public Matrix<A2, A1> viewT() {
         return transposed;
     }
     
     @Override
-    public Iterable<Entry<Vector<A2>>> seeAll(boolean sparse) {
+    public Iterable<Entry<Vector<A2>>> viewAll(boolean sparse) {
         return new MyIteration(sparse);
     }
     

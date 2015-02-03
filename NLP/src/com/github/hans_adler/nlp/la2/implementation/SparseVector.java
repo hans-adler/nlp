@@ -6,6 +6,20 @@ import com.github.hans_adler.nlp.la2.MutableScalar;
 import com.github.hans_adler.nlp.la2.MutableVector;
 import com.github.hans_adler.nlp.la2.Scalar;
 
+/**
+ * TODO: Refactor so that at the core there is an ArrayList variant whose
+ * array is exposed for quick direct access without unnecessary creation of
+ * wrapper objects. Then a sparse List built on top of that.
+ * This architecture will make it easier to support most primitive datatypes
+ * by starting with a generic version (for objects) and gradually adding
+ * special code that circumvents the wrapper objects.
+ * 
+ * But note that remove(4) is ambiguous for List<Integer>!!!
+ * 
+ * @author Hans Adler (johannes.aquila@gmail.com)
+ *
+ * @param <A1>
+ */
 public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     //     Implementation notes:
     //     To avoid confusion, internal indices in the arrays storing the actual
@@ -34,12 +48,12 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public Iterable<Entry<Scalar>> seeAll(boolean sparse) {
+    public Iterable<Entry<Scalar>> viewAll(boolean sparse) {
         return new MyIteration(sparse);
     }
 
     @Override
-    public MutableScalar see(int j) {
+    public MutableScalar view(int j) {
         return new ConcreteScalar(getValue(j));
     }
 

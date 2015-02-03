@@ -33,12 +33,12 @@ public class SafeTableRow<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public MutableScalar see(int i) {
-        return see(i);
+    public MutableScalar view(int i) {
+        return view(i);
     }
 
     @Override
-    public Iterable<Entry<Scalar>> seeAll(boolean sparse) {
+    public Iterable<Entry<Scalar>> viewAll(boolean sparse) {
         throw new UnsupportedOperationException();
     }
 

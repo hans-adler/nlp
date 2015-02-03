@@ -24,7 +24,7 @@ public class DenseVectorIteration<A1 extends Axis, A2 extends Axis>
 
     @Override
     public Entry<Vector<A2>> next() {
-        content = matrix.see(index++);
+        content = matrix.view(index++);
         return this;
     }
 

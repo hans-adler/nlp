@@ -16,13 +16,13 @@ public class SparseVectorTest {
     @Test
     public void testSeeAll() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        for (Entry<?> entry: v.seeAll(true)) {System.out.println();}
+        for (Entry<?> entry: v.viewAll(true)) {System.out.println("*****");}
     }
 
     @Test
     public void testSee() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        v.see(3);
+        v.view(3);
     }
 
     @Test

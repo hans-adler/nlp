@@ -8,14 +8,14 @@ import com.github.hans_adler.nlp.la2.internal.VoS;
 public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
-    * ASPECTS
+    * VIEWERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public abstract Scalar see(int i);
+    public abstract Scalar view(int i);
     
     @Override
-    public abstract Iterable<Entry<Scalar>> seeAll(boolean sparse);
+    public abstract Iterable<Entry<Scalar>> viewAll(boolean sparse);
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
@@ -23,11 +23,11 @@ public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
 
     public default double getValue(int j) {
         checkIndex(j);
-        return see(j).getValue();
+        return view(j).getValue();
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
-    * VECTOR FACTORY
+    * FACTORY
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     public static <I extends Axis> MutableVector<I> create(I axis) {

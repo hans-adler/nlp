@@ -6,7 +6,7 @@ import com.github.hans_adler.nlp.la2.internal.VoS;
 public interface Scalar extends VoS {
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
-    * ASPECTS
+    * VIEWERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
@@ -15,8 +15,9 @@ public interface Scalar extends VoS {
 
     public abstract double getValue();
 
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
-    * SCALAR FACTORY
+    * FACTORY
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     public static MutableScalar create() {
