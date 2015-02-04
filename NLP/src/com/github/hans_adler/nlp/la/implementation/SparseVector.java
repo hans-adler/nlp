@@ -179,7 +179,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
 
         public MyIteration(boolean sparse) {
             this.sparse = sparse;
-            content = new ConcreteScalar(Double.NaN);
+            content = new MyScalar(-1);
             index = 0;
         }
         
@@ -192,20 +192,43 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
             }
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public Entry<Scalar> next() {
             if (sparse) {
                 index = indexArray[key];
-                ((ConcreteScalar) content).value = valueArray[key++];
+                key++;
             } else {
                 if (index == indexArray[key]) {
-                    ((ConcreteScalar) content).value = valueArray[key++];
-                } else {
-                    ((ConcreteScalar) content).value = getDefaultValue();
+                    key++;
                 }
             }
+            ((MyScalar) content).index = index;
             return this;
         }
+    }
+    
+    private class MyScalar implements MutableScalar {
+        
+        // TODO: Implement caching of key for better performance.
+        
+        private int index; // changed from outside the class
+        
+        MyScalar(int index) {
+            this.index = index;
+        }
+
+        @Override
+        public double getValue() {
+            return SparseVector.this.getValue(index);
+        }
+
+        @Override
+        public MutableScalar setValue(double value) {
+            SparseVector.this.setValue(index, value);
+            return this;
+        }
+               
     }
     
 }
