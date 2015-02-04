@@ -43,6 +43,11 @@ public class SafeTableRow<A1 extends Axis> implements MutableVector<A1> {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Iterable<Entry<MutableScalar>> takeAll(boolean sparse) {
+        throw new UnsupportedOperationException();
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

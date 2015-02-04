@@ -51,7 +51,12 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
 
     @Override
     public Iterable<Entry<Scalar>> viewAll(boolean sparse) {
-        return new MyIteration(sparse);
+        return new MyIteration<Scalar>(sparse);
+    }
+
+    @Override
+    public Iterable<Entry<MutableScalar>> takeAll(boolean sparse) {
+        return new MyIteration<MutableScalar>(sparse);
     }
 
     @Override
@@ -171,7 +176,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     * INNER CLASSES
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    private class MyIteration extends Entry<Scalar> implements Iteration<Entry<Scalar>> {
+    private class MyIteration<S extends Scalar> extends Entry<MyScalar> implements Iteration<Entry<S>> {
         
         boolean sparse;
         int key = start;
@@ -194,7 +199,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
 
         @SuppressWarnings("unchecked")
         @Override
-        public Entry<Scalar> next() {
+        public Entry<S> next() {
             if (sparse) {
                 index = indexArray[key];
                 key++;
@@ -204,7 +209,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
                 }
             }
             ((MyScalar) content).index = index;
-            return this;
+            return (Entry<S>) this;
         }
     }
     

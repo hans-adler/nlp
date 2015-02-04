@@ -7,19 +7,27 @@ import com.github.hans_adler.nlp.la.iteration.Iterations;
 public interface MutableVector<A1 extends Axis> extends Vector<A1> {
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * VIEWERS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public default Iterable<Entry<Scalar>> viewAll(boolean sparse) {
+        return (Iterable) takeAll(sparse);
+    }
+
+    
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * TAKERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     public default MutableScalar take(int i) {
         throw new UnsupportedOperationException();
-        //return (MutableScalar) view(i);v
+        //return (MutableScalar) view(i);
     }
     
-    //@SuppressWarnings({ "unchecked", "rawtypes" })
-    public default Iterable<Entry<MutableScalar>> takeAll(boolean sparse) {
-        throw new UnsupportedOperationException();
-        //return (Iterable) takeAll(sparse);
-    }
+    //@SuppressWarnings({ "unchecked" })
+    public abstract Iterable<Entry<MutableScalar>> takeAll(boolean sparse);
     
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  

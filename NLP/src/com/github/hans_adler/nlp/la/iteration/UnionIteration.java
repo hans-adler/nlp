@@ -26,8 +26,10 @@ public class UnionIteration<T1 extends VoS, T2 extends VoS>
 
     Iterator<Entry<T1>> i1;
     Iterator<Entry<T2>> i2;
-    Entry<T1> buffer1;
-    Entry<T2> buffer2;
+    @SuppressWarnings("unchecked")
+    Entry<T1> buffer1 = EMPTY;
+    @SuppressWarnings("unchecked")
+    Entry<T2> buffer2 = EMPTY;
     EntryPair<T1, T2> next;
     boolean nextLoaded = false;
     

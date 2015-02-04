@@ -10,14 +10,14 @@ public class SparseVectorTest {
 
     @Test
     public void testSparseVector() {
-        new SparseVector(XAxis.OBJECT);
-        new SparseVector(YAxis.OBJECT);
+        new SparseVector<XAxis>(XAxis.OBJECT);
+        new SparseVector<YAxis>(YAxis.OBJECT);
     }
 
     @Test
     public void testSeeAll() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        for (Entry<?> entry: v.viewAll(true)) {System.out.println("*****");}
+        for (Entry<?> entry: v.viewAll(true)) {System.out.println(entry);}
     }
 
     @Test
@@ -47,6 +47,17 @@ public class SparseVectorTest {
             v.setValue(i, i);
         }
         assertEquals(50, v.getValue(50), 0.00000001);
+    }
+    
+    @Test
+    public void testPaste() {
+        SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
+        SparseVector<XAxis> w = new SparseVector<XAxis>(XAxis.OBJECT);
+        w.setValue(7, 7).setValue(19, 19).setValue(12, 12);
+        v.paste(w);
+        assertEquals(7, v.getValue(7), 0);
+        assertEquals(19, v.getValue(19), 0);
+        assertEquals(12, v.getValue(12), 0);
     }
 
 }
