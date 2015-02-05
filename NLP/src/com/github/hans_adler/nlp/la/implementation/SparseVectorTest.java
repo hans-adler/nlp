@@ -82,7 +82,9 @@ public class SparseVectorTest {
     public void testPaste() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
         SparseVector<XAxis> w = new SparseVector<XAxis>(XAxis.OBJECT);
-        w.setValue(7, 7).setValue(19, 19).setValue(12, 12);
+        w.setValue(7, 7);
+        v.setValue(19, 19);
+        v.setValue(12, 12);
         v.paste(w);
         assertIdentical(7, v.getValue(7));
         assertIdentical(12, v.getValue(12));

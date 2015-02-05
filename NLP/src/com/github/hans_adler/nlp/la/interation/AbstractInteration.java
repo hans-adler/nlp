@@ -26,28 +26,32 @@ public abstract class AbstractInteration
     
     @Override
     public final Integer next() {
+        System.out.println("next(): " + this);
         advance();
         return index();
     }
     
     @Override
     public final boolean hasNext() {
-        return future < Integer.MIN_VALUE;
+        System.out.println("hasNext(): " + this);
+        return future < Integer.MAX_VALUE;
     }
 
     @Override
     public final int index() {
+        System.out.println("index(): " + this);
         return index;
     }
 
     @Override
     public final int future() {
+        System.out.println("future(): " + this);
         return future;
     }
 
     @Override
     public final void advance() {
-        assert future > index;
+        assert future > index || (future == index && index == Integer.MIN_VALUE);
         if (future == Integer.MAX_VALUE) throw new NoSuchElementException();
         int newIndex = future;
         skip(future+1);

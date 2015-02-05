@@ -70,8 +70,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     public double getValue(int j) {
         checkIndex(j);
         int key = key(j);
-        if (key == Integer.MAX_VALUE || indexArray[key] != j) {
-            assert indexArray[key] > j;
+        if (key < start || key >= ceiling || indexArray[key] != j) {
+            assert key == Integer.MAX_VALUE || indexArray[key] > j;
             return getDefaultValue();
         }
         return valueArray[key];
@@ -132,7 +132,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
      * If there is no key corresponding to index j, the smallest key is
      * returned that corresponds to an index greater than j. If j is
      * greater than the greatest occurring index, Integer.MAX_VALUE is
-     * returned.
+     * returned. In the special case of an empty array, Integer.MAX_VALUE
+     * is returned as well.
      * 
      * @param j
      * @return
@@ -150,7 +151,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
      * @return
      */
     private int key(int j, int nearbyKey) {
-        if (ceiling == start) return -(ceiling + 1);
+        if (ceiling == start) return Integer.MAX_VALUE;
+        if (j < 0) return 0;
         int key = nearbyKey;
         // Fix if key is in implausible range.
         if (key >= start + j) key = start+j;
@@ -240,70 +242,15 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     * INNER CLASSES
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    private class MyIteration<S extends Scalar> extends Entry<MyScalar> implements Iteration<Entry<S>> {
-        
-        boolean sparse;
-        int key;
-        boolean nextLoaded;
-
-        public MyIteration(boolean sparse) {
-            this.sparse = sparse;
-            content = new MyScalar();
-            index = -1;
-            key = start -1;
-            nextLoaded = false;
-        }
-        
-        @Override
-        public boolean hasNext() {
-            if (!nextLoaded) loadNext();
-            return index < getAxis1().bound;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public Entry<S> next() {
-            assert nextLoaded;
-            assert index < getAxis1().bound;
-            if (!nextLoaded) loadNext();
-            nextLoaded = false;
-            return (Entry<S>) this;
-        }
-        
-        private void loadNext() {
-            if (nextLoaded) return;
-            index++;
-            key++;
-            if (sparse) {
-                key = key(index, key);
-                if (key < 0) {
-                    assert key >= start;
-                    if (key < ceiling) {
-                        index = indexArray[key];
-                    }
-                }
-            }
-            if (key < ceiling) {
-                //((MyScalar) content).index = index;
-                content = new MyScalar(index);
-            } else {
-                key = Integer.MAX_VALUE;
-                index = Axis.UNBOUNDED;
-                //((MyScalar) content).invalidate();
-                content = new MyScalar();
-            }
-            nextLoaded = true;
-        }
-    }
-    
     private class MyInteration extends AbstractInteration {
         
         private boolean sparse;
-        protected int key = Integer.MAX_VALUE;
-        protected int futureKey = Integer.MAX_VALUE;
+        protected int key = Integer.MIN_VALUE;
+        protected int futureKey = Integer.MIN_VALUE;
         
         public MyInteration(boolean sparse) {
             this.sparse = sparse;
+            advance();
         }
 
         @Override
@@ -320,6 +267,14 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
             if (futureKey < ceiling) {
                 future = indexArray[futureKey];
             }
+        }
+        
+        @Override
+        public String toString() {
+            return String.format(
+                    "SparseVector.MyInteration@%x(%d:%d|%d:%d)",
+                    hashCode(), key, index, futureKey, future
+            );
         }
     }
     
