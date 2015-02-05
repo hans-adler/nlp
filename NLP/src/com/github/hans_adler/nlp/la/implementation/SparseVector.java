@@ -1,10 +1,13 @@
 package com.github.hans_adler.nlp.la.implementation;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.MutableScalar;
 import com.github.hans_adler.nlp.la.MutableVector;
 import com.github.hans_adler.nlp.la.Scalar;
+import com.github.hans_adler.nlp.la.interation.AbstractInteration;
+import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.iteration.Iteration;
 
@@ -36,8 +39,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     
     protected final A1 axis1;
     
-    protected int[]    indexArray;
-    protected double[] valueArray;
+    protected int[]    indexArray = INITIAL_INDEX_ARRAY;
+    protected double[] valueArray = INITIAL_VALUE_ARRAY;
     protected int start;
     protected int ceiling;
     
@@ -98,26 +101,92 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
+    * OTHERS
+    \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    @Override
+    public String toString() {
+        final int limit = 12;
+        StringBuilder result = new StringBuilder();
+        result.append(String.format("SparseVector@%x(", hashCode()));
+        for (int i = start; i < Math.min(ceiling, limit); i++) {
+            result.append(String.format("%d:%.3f|", indexArray[i], valueArray[i]));
+        }
+        if (ceiling <= limit) {
+            result.delete(result.length()-1, result.length());
+            if (ceiling > start) {
+                result.append(')');
+            }
+        } else {
+            result.append("...)");
+        }
+        return result.toString();
+    }
+    
+    
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * Private methods
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     /**
-     * Returns the key corresponding to the index, or -1 if there is none.
+     * Returns the key corresponding to the index, or a negative number if
+     * there is none.
+     * 
+     * If there is no key corresponding to index j, let jj be the smallest
+     * index > j which has a key (or jj = ceiling if there is none).
+     * Then -(jj+1) is returned. (Not a very nice value, but we must guarantee
+     * it is always negatives and carries the full information of the original,
+     * which may be anything from 0 to bound-1.)
      * 
      * @param j
      * @return
      */
     private int key(int j) {
-        if (ceiling == start) return -1;
-        int key = start + j;
+        return key(j, start+j);
+    }
+
+    /**
+     * Same as {link {@link SparseVector#key(int, int)}, but start looking
+     * near nearbyKey. Useful e.g. in iterators.
+     * 
+     * @param j
+     * @param nearbyKey
+     * @return
+     */
+    private int key(int j, int nearbyKey) {
+        if (ceiling == start) return -(ceiling + 1);
+        int key = nearbyKey;
+        // Fix if key is in implausible range.
+        if (key >= start + j) key = start+j;
+        // Fix if key is in forbidden range.
+        if (key < start) key = start;
         if (key >= ceiling) key = ceiling-1;
         int jj = indexArray[key];
+        // After the following loop, jj is guaranteed to be <= j.
+        // Usually we will start with a key that is too big, so the loop will
+        // be used.
         while (jj > j) {
             key--;
-            jj = indexArray[key];
+            if (key < start) {
+                jj = -1;
+            } else {
+                jj = indexArray[key];
+            }
         }
-        if (jj < j) return -1;
-        return key;
+        // After the following loop, jj is guaranteed to be >= j.
+        // This is only relevant if we started with a key that was too small.
+        // This tends to happen when iterators call this method.
+        while (jj < j) {
+            key++;
+            if (key >= ceiling) {
+                jj = Axis.UNBOUNDED;
+            } else {
+                jj = indexArray[key];
+            }
+        }
+        if (jj == j) return key;
+        assert jj > j;
+        return -(key+1);
     }
 
     /**
@@ -179,37 +248,92 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     private class MyIteration<S extends Scalar> extends Entry<MyScalar> implements Iteration<Entry<S>> {
         
         boolean sparse;
-        int key = start;
-        int bound = getAxis1().bound;
+        int key;
+        boolean nextLoaded;
 
         public MyIteration(boolean sparse) {
             this.sparse = sparse;
-            content = new MyScalar(-1);
-            index = 0;
+            content = new MyScalar();
+            index = -1;
+            key = start -1;
+            nextLoaded = false;
         }
         
         @Override
         public boolean hasNext() {
-            if (sparse) {
-                return key < ceiling;
-            } else {
-                return index < bound;
-            }
+            if (!nextLoaded) loadNext();
+            return index < getAxis1().bound;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public Entry<S> next() {
+            assert nextLoaded;
+            assert index < getAxis1().bound;
+            if (!nextLoaded) loadNext();
+            nextLoaded = false;
+            return (Entry<S>) this;
+        }
+        
+        private void loadNext() {
+            if (nextLoaded) return;
+            index++;
+            key++;
             if (sparse) {
-                index = indexArray[key];
-                key++;
-            } else {
-                if (index == indexArray[key]) {
-                    key++;
+                key = key(index, key);
+                if (key < 0) {
+                    // We got -(key+1) instead, where key belongs to the smallest
+                    // existing index that is greater than what we asked for.
+                    // Unpack and find the corresponding index.
+                    key = -key - 1;
+                    assert key >= start;
+                    if (key < ceiling) {
+                        index = indexArray[key];
+                    }
                 }
             }
-            ((MyScalar) content).index = index;
-            return (Entry<S>) this;
+            if (key < ceiling) {
+                //((MyScalar) content).index = index;
+                content = new MyScalar(index);
+            } else {
+                key = Integer.MAX_VALUE;
+                index = Axis.UNBOUNDED;
+                //((MyScalar) content).invalidate();
+                content = new MyScalar();
+            }
+            nextLoaded = true;
+        }
+    }
+    
+    private class MyInteration extends AbstractInteration<MyInteration> 
+        implements Interation<MyInteration> {
+        
+        private boolean sparse;
+        protected int key = Integer.MAX_VALUE;
+        protected int futureKey = Integer.MAX_VALUE;
+        
+        public MyInteration(boolean sparse) {
+            this.sparse = sparse;
+        }
+
+        @Override
+        public void advance() {
+            if (index == Integer.MAX_VALUE) throw new IllegalStateException();
+            key = futureKey++;
+            index = futureIndex++;
+            if (sparse) {
+                futureKey = key(index, futureKey);
+                if (futureKey < 0) {
+                    // We got -(key+1) instead, where key belongs to the smallest
+                    // existing index that is greater than what we asked for.
+                    // Unpack and find the corresponding index.
+                    futureKey = -futureKey - 1;
+                    assert futureKey >= start;
+                    if (futureKey < ceiling) {
+                        futureIndex = indexArray[futureKey];
+                    }
+                }
+            }
         }
     }
     
@@ -222,6 +346,9 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         MyScalar(int index) {
             this.index = index;
         }
+        MyScalar() {
+            invalidate();
+        }
 
         @Override
         public double getValue() {
@@ -232,6 +359,22 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         public MutableScalar setValue(double value) {
             SparseVector.this.setValue(index, value);
             return this;
+        }
+        
+        void invalidate() {
+            index = Axis.UNBOUNDED;
+        }
+        boolean valid() {
+            return 0 < index && index < axis1.bound;
+        }
+        
+        @Override
+        public String toString() {
+            if (valid()) {
+                return String.format("Scalar/SparseVector@%x(%d:%f)", SparseVector.this.hashCode(), index, getValue());
+            } else {
+                return String.format("Scalar/SparseVector@%x(%d)", SparseVector.this.hashCode(), index);
+            }
         }
                
     }

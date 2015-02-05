@@ -18,4 +18,11 @@ public class EntryPair<T1 extends VoS, T2 extends VoS> {
     public Entry<T2> two() {
         return two;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("EntryPair(%d → %s, %s)", index,
+                one == null ? "null" : one.content,
+                two == null ? "null" : two.content);
+    }
 }

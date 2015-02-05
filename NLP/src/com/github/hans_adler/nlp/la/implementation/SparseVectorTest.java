@@ -1,12 +1,18 @@
 package com.github.hans_adler.nlp.la.implementation;
 
 import static org.junit.Assert.*;
+import java.util.Iterator;
 import org.junit.Test;
+import com.github.hans_adler.nlp.la.Scalar;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.test.XAxis;
 import com.github.hans_adler.nlp.la.test.YAxis;
 
 public class SparseVectorTest {
+    
+    void assertIdentical(double a, double b) {
+        assertEquals(a, b, 0);
+    }
 
     @Test
     public void testSparseVector() {
@@ -16,8 +22,31 @@ public class SparseVectorTest {
 
     @Test
     public void testSeeAll() {
+        // Iterator with no elements
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        for (Entry<?> entry: v.viewAll(true)) {System.out.println(entry);}
+        for (@SuppressWarnings("unused") Entry<Scalar> entry: v.viewAll(true)) {
+            fail();
+        }
+        
+        // Iterator with one element
+        v.setValue(4,4);
+        for (Entry<Scalar> entry: v.viewAll(true)) {
+            assertEquals(4, entry.index);
+            assertIdentical(4, entry.content.getValue());
+        }
+        
+        // Iterator with two elements
+        v.setValue(2, 2);
+        Iterator<Entry<Scalar>> i = v.viewAll(true).iterator();
+        assertTrue(i.hasNext());
+        Entry<Scalar> entry = i.next();
+        assertEquals(2, entry.index);
+        assertIdentical(2, entry.content.getValue());
+        assertTrue(i.hasNext());
+        entry = i.next();
+        assertEquals(4, entry.index);
+        assertIdentical(4, entry.content.getValue());
+        assertFalse(i.hasNext());
     }
 
     @Test
@@ -29,7 +58,7 @@ public class SparseVectorTest {
     @Test
     public void testGetValue() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        assertEquals(0, v.getValue(15), 0.000001);
+        assertIdentical(0, v.getValue(15));
     }
 
     @Test
@@ -42,11 +71,11 @@ public class SparseVectorTest {
     public void testSetValue() {
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
         v.setValue(3,  12);
-        assertEquals(12, v.getValue(3), 0.00000001);
+        assertIdentical(12, v.getValue(3));
         for (int i = 0; i < 100; i+=5) {
             v.setValue(i, i);
         }
-        assertEquals(50, v.getValue(50), 0.00000001);
+        assertIdentical(50, v.getValue(50));
     }
     
     @Test
@@ -55,9 +84,24 @@ public class SparseVectorTest {
         SparseVector<XAxis> w = new SparseVector<XAxis>(XAxis.OBJECT);
         w.setValue(7, 7).setValue(19, 19).setValue(12, 12);
         v.paste(w);
-        assertEquals(7, v.getValue(7), 0);
-        assertEquals(19, v.getValue(19), 0);
-        assertEquals(12, v.getValue(12), 0);
+        assertIdentical(7, v.getValue(7));
+        assertIdentical(12, v.getValue(12));
+        assertIdentical(19, v.getValue(19));
+        v.setValue(8, 8);
+        assertIdentical(7, v.getValue(7));
+        assertIdentical(8, v.getValue(8));
+        assertIdentical(12, v.getValue(12));
+        assertIdentical(19, v.getValue(19));
+        w.setValue(12, 12.5);
+        w.setValue(2,2);
+        assertIdentical(12.5, w.getValue(12));
+        assertIdentical(2, w.getValue(2));
+        v.paste(w);
+        assertIdentical(2, v.getValue(2));
+        assertIdentical(7, v.getValue(7));
+        assertIdentical(8, v.getValue(8));
+        assertIdentical(12.5, v.getValue(12));
+        assertIdentical(19, v.getValue(19));
     }
 
 }

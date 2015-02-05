@@ -2,7 +2,7 @@ package com.github.hans_adler.nlp.la;
 
 public class Axis {
     
-    public static int UNBOUNDED = Integer.MAX_VALUE;
+    public static final int UNBOUNDED = Integer.MAX_VALUE;
     
     public final String description;
     public final int bound;

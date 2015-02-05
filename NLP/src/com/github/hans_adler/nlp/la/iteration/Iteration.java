@@ -15,5 +15,5 @@ public interface Iteration<T> extends Iterable<T>, Iterator<T> {
     public default Iteration<T> iterator() {
         return this;
     }
-
+    
 }
