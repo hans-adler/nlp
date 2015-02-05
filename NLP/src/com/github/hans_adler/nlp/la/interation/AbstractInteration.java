@@ -1,29 +1,38 @@
 package com.github.hans_adler.nlp.la.interation;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public abstract class AbstractInteration<T extends AbstractInteration<T>> 
-                implements Interation<T> {
+
+public abstract class AbstractInteration
+                implements Interation {
     
     protected int index = Integer.MIN_VALUE;
-    protected int futureIndex = Integer.MIN_VALUE;
+    protected int future = Integer.MIN_VALUE;
+    
+    
+    /*
+     *  The only interface method that can be implemented / needs implementing.
+     */
+    @Override
+    public abstract void skip(int i);
+
+    
     
     @Override
-    public abstract void advance();
-
-    @Override
-    public final Interation<T> iterator() {
+    public final Iterator<Integer> iterator() {
         return this;
     }
     
     @Override
-    public final Interation<T> next() {
+    public final Integer next() {
         advance();
-        return this;
+        return index();
     }
     
     @Override
     public final boolean hasNext() {
-        return futureIndex < Integer.MIN_VALUE;
+        return future < Integer.MIN_VALUE;
     }
 
     @Override
@@ -33,7 +42,16 @@ public abstract class AbstractInteration<T extends AbstractInteration<T>>
 
     @Override
     public final int future() {
-        return futureIndex;
+        return future;
+    }
+
+    @Override
+    public final void advance() {
+        assert future > index;
+        if (future == Integer.MAX_VALUE) throw new NoSuchElementException();
+        int newIndex = future;
+        skip(future+1);
+        index = newIndex;
     }
 
 }

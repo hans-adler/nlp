@@ -1,8 +1,8 @@
 package com.github.hans_adler.nlp.la;
 
 import com.github.hans_adler.nlp.la.implementation.SparseMatrix;
+import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.internal.MoV;
-import com.github.hans_adler.nlp.la.unused.DenseVectorIteration;
 
 /*
   General method naming scheme
@@ -70,9 +70,9 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
     public abstract Vector<A2> view(int i);
     
     @Override
-    @SuppressWarnings("rawtypes")
-    public default Iterable viewAll(boolean sparse) {
-        return new DenseVectorIteration<A1, A2>(this);
+    public default Interation indices(boolean sparse) {
+        throw new UnsupportedOperationException();
+        //return new DenseVectorIteration<A1, A2>(this);
     }
     
     

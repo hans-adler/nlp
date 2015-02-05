@@ -53,13 +53,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    public Iterable<Entry<Scalar>> viewAll(boolean sparse) {
-        return new MyIteration<Scalar>(sparse);
-    }
-
-    @Override
-    public Iterable<Entry<MutableScalar>> takeAll(boolean sparse) {
-        return new MyIteration<MutableScalar>(sparse);
+    public Interation indices(boolean sparse) {
+        return new MyInteration(sparse);
     }
 
     @Override
@@ -75,7 +70,10 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     public double getValue(int j) {
         checkIndex(j);
         int key = key(j);
-        if (key < 0) return getDefaultValue();
+        if (key == Integer.MAX_VALUE || indexArray[key] != j) {
+            assert indexArray[key] > j;
+            return getDefaultValue();
+        }
         return valueArray[key];
     }
     
@@ -129,14 +127,12 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     /**
-     * Returns the key corresponding to the index, or a negative number if
-     * there is none.
+     * Returns the key corresponding to the index.
      * 
-     * If there is no key corresponding to index j, let jj be the smallest
-     * index > j which has a key (or jj = ceiling if there is none).
-     * Then -(jj+1) is returned. (Not a very nice value, but we must guarantee
-     * it is always negatives and carries the full information of the original,
-     * which may be anything from 0 to bound-1.)
+     * If there is no key corresponding to index j, the smallest key is
+     * returned that corresponds to an index greater than j. If j is
+     * greater than the greatest occurring index, Integer.MAX_VALUE is
+     * returned.
      * 
      * @param j
      * @return
@@ -144,7 +140,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
     private int key(int j) {
         return key(j, start+j);
     }
-
+    
     /**
      * Same as {link {@link SparseVector#key(int, int)}, but start looking
      * near nearbyKey. Useful e.g. in iterators.
@@ -184,9 +180,8 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
                 jj = indexArray[key];
             }
         }
-        if (jj == j) return key;
-        assert jj > j;
-        return -(key+1);
+        assert jj >= j;
+        return key;
     }
 
     /**
@@ -282,10 +277,6 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
             if (sparse) {
                 key = key(index, key);
                 if (key < 0) {
-                    // We got -(key+1) instead, where key belongs to the smallest
-                    // existing index that is greater than what we asked for.
-                    // Unpack and find the corresponding index.
-                    key = -key - 1;
                     assert key >= start;
                     if (key < ceiling) {
                         index = indexArray[key];
@@ -305,8 +296,7 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         }
     }
     
-    private class MyInteration extends AbstractInteration<MyInteration> 
-        implements Interation<MyInteration> {
+    private class MyInteration extends AbstractInteration {
         
         private boolean sparse;
         protected int key = Integer.MAX_VALUE;
@@ -317,22 +307,18 @@ public class SparseVector<A1 extends Axis> implements MutableVector<A1> {
         }
 
         @Override
-        public void advance() {
-            if (index == Integer.MAX_VALUE) throw new IllegalStateException();
-            key = futureKey++;
-            index = futureIndex++;
-            if (sparse) {
-                futureKey = key(index, futureKey);
-                if (futureKey < 0) {
-                    // We got -(key+1) instead, where key belongs to the smallest
-                    // existing index that is greater than what we asked for.
-                    // Unpack and find the corresponding index.
-                    futureKey = -futureKey - 1;
-                    assert futureKey >= start;
-                    if (futureKey < ceiling) {
-                        futureIndex = indexArray[futureKey];
-                    }
-                }
+        public void skip(int i) {
+            if (i <= future) return;
+            int keysMissing = future - (futureKey-start); 
+            future = i;
+            if (keysMissing < 5) {
+                futureKey = key(future);
+            } else {
+                futureKey = key(future, futureKey);
+            }
+            if (!sparse) return;
+            if (futureKey < ceiling) {
+                future = indexArray[futureKey];
             }
         }
     }

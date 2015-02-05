@@ -1,9 +1,9 @@
 package com.github.hans_adler.nlp.la;
 
 import com.github.hans_adler.nlp.la.implementation.SparseVector;
+import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.internal.MoV;
 import com.github.hans_adler.nlp.la.internal.VoS;
-import com.github.hans_adler.nlp.la.iteration.Entry;
 
 public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     
@@ -15,7 +15,7 @@ public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     public abstract Scalar view(int i);
     
     @Override
-    public abstract Iterable<Entry<Scalar>> viewAll(boolean sparse);
+    public abstract Interation indices(boolean sparse);
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS

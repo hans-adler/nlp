@@ -1,8 +1,7 @@
 package com.github.hans_adler.nlp.la;
 
-import com.github.hans_adler.nlp.la.iteration.Entry;
-import com.github.hans_adler.nlp.la.iteration.EntryPair;
-import com.github.hans_adler.nlp.la.iteration.Iterations;
+import com.github.hans_adler.nlp.la.interation.Interation;
+import com.github.hans_adler.nlp.la.interation.Interations;
 
 public interface MutableVector<A1 extends Axis> extends Vector<A1> {
 
@@ -11,10 +10,7 @@ public interface MutableVector<A1 extends Axis> extends Vector<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public default Iterable<Entry<Scalar>> viewAll(boolean sparse) {
-        return (Iterable) takeAll(sparse);
-    }
+    public abstract Interation indices(boolean sparse);
 
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
@@ -26,26 +22,15 @@ public interface MutableVector<A1 extends Axis> extends Vector<A1> {
         //return (MutableScalar) view(i);
     }
     
-    //@SuppressWarnings({ "unchecked" })
-    public abstract Iterable<Entry<MutableScalar>> takeAll(boolean sparse);
-    
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * PASTERS
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     public default MutableVector<A1> paste(Vector<A1> other) {
-        for (EntryPair<MutableScalar, Scalar> pair: 
-                Iterations.union(this, other, getDefaultValue() == other.getDefaultValue())) {
-            if (pair.one != null) {
-                if (pair.two != null) {
-                    pair.one.content.setValue(pair.two.content.getValue());
-                } else {
-                    pair.one.content.setValue(other.getDefaultValue());
-                }
-            } else {
-                this.setValue(pair.index, pair.two.content.getValue());
-            }
+        boolean sparse = getDefaultValue() == other.getDefaultValue();
+        for (int j: Interations.union(this.indices(sparse), other.indices(sparse))) {
+            this.setValue(j, other.getValue(j));
         }
         return this;
     }

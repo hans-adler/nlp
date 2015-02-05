@@ -4,6 +4,7 @@ import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.MutableScalar;
 import com.github.hans_adler.nlp.la.MutableVector;
 import com.github.hans_adler.nlp.la.Scalar;
+import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 
 public class SafeTableRow<A1 extends Axis> implements MutableVector<A1> {
@@ -39,14 +40,10 @@ public class SafeTableRow<A1 extends Axis> implements MutableVector<A1> {
     }
 
     @Override
-    public Iterable<Entry<Scalar>> viewAll(boolean sparse) {
+    public Interation indices(boolean sparse) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Iterable<Entry<MutableScalar>> takeAll(boolean sparse) {
-        throw new UnsupportedOperationException();
-    }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\  
     * GETTERS

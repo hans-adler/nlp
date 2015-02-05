@@ -24,28 +24,28 @@ public class SparseVectorTest {
     public void testSeeAll() {
         // Iterator with no elements
         SparseVector<XAxis> v = new SparseVector<XAxis>(XAxis.OBJECT);
-        for (@SuppressWarnings("unused") Entry<Scalar> entry: v.viewAll(true)) {
+        for (@SuppressWarnings("unused") int j: v.indices(true)) {
             fail();
         }
         
         // Iterator with one element
         v.setValue(4,4);
-        for (Entry<Scalar> entry: v.viewAll(true)) {
-            assertEquals(4, entry.index);
-            assertIdentical(4, entry.content.getValue());
+        for (int j: v.indices(true)) {
+            assertEquals(4, j);
+            assertIdentical(4, v.getValue(j));
         }
         
         // Iterator with two elements
         v.setValue(2, 2);
-        Iterator<Entry<Scalar>> i = v.viewAll(true).iterator();
+        Iterator<Integer> i = v.indices(true).iterator();
         assertTrue(i.hasNext());
-        Entry<Scalar> entry = i.next();
-        assertEquals(2, entry.index);
-        assertIdentical(2, entry.content.getValue());
+        int j = i.next();
+        assertEquals(2, j);
+        assertIdentical(2, v.getValue(j));
         assertTrue(i.hasNext());
-        entry = i.next();
-        assertEquals(4, entry.index);
-        assertIdentical(4, entry.content.getValue());
+        j = i.next();
+        assertEquals(4, j);
+        assertIdentical(4, v.getValue(j));
         assertFalse(i.hasNext());
     }
 

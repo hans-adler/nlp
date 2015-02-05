@@ -3,11 +3,8 @@ package com.github.hans_adler.nlp.la.interation;
 import java.util.Iterator;
 
 /**
- * Interface for one-time Iterables that return themselves as iterator and
- * have a method for accessing an int index. This is a scheme for iterating over
- * huge sequences of ints without creating mountains of short-lived Integer
- * objects. Moreover, the iterator always returns itself with the next()
- * method.
+ * Interface for one-time Integer Iterable objects that return themselves
+ * as Iterator objects.
  * 
  * In order to facilitate subclasses with an additional payload that varies
  * with the index and can be accessed through the Interation more quickly than
@@ -22,33 +19,65 @@ import java.util.Iterator;
  * Before advance()/next() is called for the first time, index() returns
  * Integer.MIN_VALUE and future() returns the first int of the sequence
  * or Integer.MAX_VALUE if the sequence is empty.
- * After the last element of the sequence we get one or two instances of
- * Integer.MAX_VALUE. (Which is better?) A further call throws an
- * IllegalStateException.
+ * In the last iteration step (when hasNext() returns true), future() is
+ * Integer.MAX_VALUE. A further call to advance() or next() then throws a
+ * NoSuchElementException.
+ * 
+ * TODO: Add reset() method so these things can be reused.
  * 
  * @author Hans Adler (johannes.aquila@gmail.com) 2015
- *
- * @param <T>
  */
-public interface Interation<T extends Interation<T>> extends Iterator<Interation<T>>, Iterable<Interation<T>> {
-
+public interface Interation extends Iterator<Integer>, Iterable<Integer> {
+    
     @Override
-    public default Interation<T> iterator() {
+    public default Iterator<Integer> iterator() {
         return this;
     }
     
     @Override
-    public default Interation<T> next() {
+    public default Integer next() {
         advance();
-        return this;
+        return index();
     }
     
     @Override
     public abstract boolean hasNext();
     
+    /**
+     * Current index.
+     * 
+     * @return Current index.
+     */
     public abstract int index();
+    /**
+     * Next index. It will become the current index through a call to
+     * {@link #advance()} or {@link #next()}. The user can change the future
+     * index by calling {@link #skip(int)}.
+     * 
+     * Once we have reached the last element, future() returns
+     * Integer.MAX_VALUE.
+     * 
+     * @return Next index.
+     */
     public abstract int future();
 
+    /**
+     * Set the current index to what is now the future index. Then advance
+     * the future index (using future = skip(future) or some optimised
+     * version of this) so it is again greater than the current index.
+     */
     abstract void advance();
-        
+    /**
+     * Instructs the Interator to skip any remaining indices before i.
+     * Obviously, for this to be useful, i must be greater than or equal to
+     * the current index.
+     * 
+     * In particular, skip(future()) does nothing, and the same is true
+     * for skip(0) or skip(index()). Using skip(Integer.MAX_VALUE) one
+     * can make the Interation stop after the current step.
+     * 
+     * @param i A new inclusive lower bound for future indices.
+     */
+    abstract void skip(int i);
+    
 }
