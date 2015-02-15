@@ -1,5 +1,7 @@
 package com.github.hans_adler.nlp.la;
 
+import com.github.hans_adler.nlp.vector.Axis;
+
 public interface MutableMatrix<A1 extends Axis, A2 extends Axis>
                                                      extends Matrix<A1, A2> {
     

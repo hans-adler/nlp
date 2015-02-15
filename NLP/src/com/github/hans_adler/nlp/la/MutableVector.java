@@ -2,6 +2,7 @@ package com.github.hans_adler.nlp.la;
 
 import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.interation.Interations;
+import com.github.hans_adler.nlp.vector.Axis;
 
 public interface MutableVector<A1 extends Axis> extends Vector<A1> {
 

@@ -1,13 +1,13 @@
 package com.github.hans_adler.nlp.la.implementation;
 
 import java.util.Arrays;
-import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.Matrix;
 import com.github.hans_adler.nlp.la.MutableMatrix;
 import com.github.hans_adler.nlp.la.Vector;
 import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.iteration.Iteration;
+import com.github.hans_adler.nlp.vector.Axis;
 
 public class SparseMatrix<A1 extends Axis, A2 extends Axis>
                                          implements MutableMatrix<A1, A2> {

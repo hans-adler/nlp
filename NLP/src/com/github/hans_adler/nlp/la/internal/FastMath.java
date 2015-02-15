@@ -68,4 +68,9 @@ public final class FastMath {
 //        }
 //    }
     
+    public static int ranged(int inclusiveLowerBound, int value, int exclusiveUpperBound) {
+        assert inclusiveLowerBound < exclusiveUpperBound;
+        return value < inclusiveLowerBound ? inclusiveLowerBound :
+            value >= exclusiveUpperBound ? exclusiveUpperBound-1 : value;
+    }
 }

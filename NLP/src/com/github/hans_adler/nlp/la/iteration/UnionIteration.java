@@ -3,8 +3,8 @@ package com.github.hans_adler.nlp.la.iteration;
 import static com.github.hans_adler.nlp.la.iteration.Entry.EMPTY;
 import java.util.Iterator;
 import java.util.Objects;
-import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.internal.VoS;
+import com.github.hans_adler.nlp.vector.Axis;
 
 /**
  * Turns two Entry Iterator objects into a single EntryPair Iteration that

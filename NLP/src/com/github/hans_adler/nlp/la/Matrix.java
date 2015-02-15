@@ -3,6 +3,7 @@ package com.github.hans_adler.nlp.la;
 import com.github.hans_adler.nlp.la.implementation.SparseMatrix;
 import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.internal.MoV;
+import com.github.hans_adler.nlp.vector.Axis;
 
 /*
   General method naming scheme
@@ -98,8 +99,8 @@ public interface Matrix<A1 extends Axis, A2 extends Axis> extends MoV<A1> {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     
     public default void checkIndex(int i, int j) {
-        getAxis1().checkIndex(i);
-        getAxis2().checkIndex(j);
+        getAxis1().assertRange(i);
+        getAxis2().assertRange(j);
     }
     
     

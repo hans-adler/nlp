@@ -4,6 +4,7 @@ import com.github.hans_adler.nlp.la.implementation.SparseVector;
 import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.internal.MoV;
 import com.github.hans_adler.nlp.la.internal.VoS;
+import com.github.hans_adler.nlp.vector.Axis;
 
 public interface Vector<A1 extends Axis> extends MoV<A1>, VoS {
     

@@ -1,6 +1,6 @@
 package com.github.hans_adler.nlp.la.test;
 
-import com.github.hans_adler.nlp.la.Axis;
+import com.github.hans_adler.nlp.vector.Axis;
 
 public class YAxis extends Axis {
 

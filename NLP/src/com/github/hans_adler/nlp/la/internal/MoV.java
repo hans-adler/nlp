@@ -1,7 +1,7 @@
 package com.github.hans_adler.nlp.la.internal;
 
-import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.interation.Interation;
+import com.github.hans_adler.nlp.vector.Axis;
 
 public interface MoV<A1 extends Axis> extends MoVoS {
 
@@ -29,7 +29,7 @@ public interface MoV<A1 extends Axis> extends MoVoS {
     \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     public default void checkIndex(int i) {
-        getAxis1().checkIndex(i);
+        getAxis1().assertRange(i);
     }
     
 }

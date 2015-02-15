@@ -2,7 +2,6 @@ package com.github.hans_adler.nlp.la.implementation;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import com.github.hans_adler.nlp.la.Axis;
 import com.github.hans_adler.nlp.la.MutableScalar;
 import com.github.hans_adler.nlp.la.MutableVector;
 import com.github.hans_adler.nlp.la.Scalar;
@@ -10,6 +9,7 @@ import com.github.hans_adler.nlp.la.interation.AbstractInteration;
 import com.github.hans_adler.nlp.la.interation.Interation;
 import com.github.hans_adler.nlp.la.iteration.Entry;
 import com.github.hans_adler.nlp.la.iteration.Iteration;
+import com.github.hans_adler.nlp.vector.Axis;
 
 /**
  * TODO: Refactor so that at the core there is an ArrayList variant whose
